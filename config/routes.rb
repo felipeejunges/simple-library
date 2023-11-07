@@ -11,6 +11,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :books do
+    collection do
+      get 'list'
+    end
+  end
+
 
   # Defines the root path route ("/")
   root "users#index"
