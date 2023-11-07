@@ -52,7 +52,7 @@ class UsersController < ApplicationController
           flash[:success] = 'User was successfully updated.'
           redirect_to user_url(@user)
         end
-        format.json { render :show, status: :updated, location: @user }
+        format.json { render :show, status: :ok, location: @user }
       else
         format.html do
           flash[:error] = 'User not updated'
