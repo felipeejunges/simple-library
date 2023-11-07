@@ -2,7 +2,7 @@
   first_name: "First"
   last_name: "Librarian"
   email: "first@librarian.com"
-  type: 2
+  role: 2
   password: "123"
 - id: 2
   first_name: "Person"
