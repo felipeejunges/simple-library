@@ -5,6 +5,10 @@ class CreateBooks < ActiveRecord::Migration[7.0]
       t.string :isbn
       t.string :synopsis
       t.integer :copies
+      t.string :language
+      t.integer :pages
+      t.string :series
+      t.integer :volume
 
       t.timestamps
     end

@@ -3,6 +3,9 @@
 class User < ApplicationRecord
   authenticates_with_sorcery!
 
+  has_many :borroweds
+  has_many :books, through: :borroweds
+
   validates :first_name, :last_name, :email, presence: true
   validates :email, uniqueness: true
 
