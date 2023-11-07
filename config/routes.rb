@@ -9,12 +9,16 @@ Rails.application.routes.draw do
     collection do
       get 'list'
     end
+
+    resources :books
   end
 
   resources :books do
     collection do
       get 'list'
     end
+
+    resources :details
   end
 
 

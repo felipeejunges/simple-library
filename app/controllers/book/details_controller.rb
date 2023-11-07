@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Book::DetailDetailsController < ApplicationController
+class Book::DetailsController < ApplicationController
   before action :set_book
   before_action :set_detail, only: %i[show edit update destroy]
 

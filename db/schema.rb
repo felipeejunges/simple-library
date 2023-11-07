@@ -29,15 +29,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_06_183821) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "create_user_books", force: :cascade do |t|
+  create_table "borroweds", force: :cascade do |t|
     t.integer "user_id"
     t.integer "book_id"
     t.datetime "borrowed_at"
     t.datetime "returned_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["book_id"], name: "index_create_user_books_on_book_id"
-    t.index ["user_id"], name: "index_create_user_books_on_user_id"
+    t.index ["book_id"], name: "index_borroweds_on_book_id"
+    t.index ["user_id"], name: "index_borroweds_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
