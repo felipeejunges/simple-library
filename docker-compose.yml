@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  server:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && ./bin/dev"
+    volumes:
+      - .:/simple-library
+      - /simple-library/node_modules
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true

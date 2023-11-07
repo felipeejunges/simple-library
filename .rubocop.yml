@@ -1,0 +1,34 @@
+Layout/LineLength:
+  Max: 150
+  AllowedPatterns: ['\A#']
+
+Style/Documentation:
+  Enabled: false
+
+Lint/MissingSuper:
+  Enabled: false
+
+Metrics/ParameterLists:
+  Max: 10
+
+Metrics/AbcSize:
+  Max: 30
+
+Metrics/MethodLength:
+  Max: 25
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+AllCops:
+  TargetRubyVersion: 3.2.1
+  SuggestExtensions: false
+  NewCops: disable
+  Exclude:
+    - "bin/**/*"
+    - "Gemfile"
+    - "db/schema.rb"
+    - "db/migrate/*.rb"
+    - "config/**/*.rb"
+    - "spec/*_helper.rb"
+    - "**/vendor/**/*"
