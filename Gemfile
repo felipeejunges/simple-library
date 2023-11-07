@@ -83,4 +83,6 @@ gem "pundit", "~> 2.3"
 
 gem "sorcery", "~> 0.16.5"
 
+gem 'rack-cors', require: 'rack/cors'
 
+gem "sorcery-jwt", "~> 0.1.13"
