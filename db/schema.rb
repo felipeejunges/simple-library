@@ -46,7 +46,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_06_183821) do
     t.string "email"
     t.string "salt"
     t.string "crypted_password"
-    t.integer "type"
+    t.integer "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
