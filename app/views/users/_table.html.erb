@@ -13,6 +13,9 @@
             <th scope="col">
               <%= sort_link(column: :email, label: 'Email', controller: :users, action: 'list') %>
             </th>
+            <th scope="col">
+              <%= sort_link(column: :role, label: 'Role', controller: :users, action: 'list') %>
+            </th>
             <th scope="col">Actions</th>
           </tr>
         </thead>
@@ -22,11 +25,22 @@
               <td><%= user.id %></td>
               <td><%= link_to user.name, user_path(user), data: { turbo: false } %></td>
               <td><%= user.email %></td>
+              <td><%= user.role.humanize %></td>
               <td>
                 <div class="btn-group me-2">
                   <%= link_to user_path(user), class: "btn btn-sm btn-outline-secondary", data: { turbo: false } do %>
                     <i class="bi bi-eye"></i>
                   <% end %>
+                  <% if current_user.librarian? || current_user.id == user.id %>
+                    <% if current_user.id != user.id %>
+                      <%= link_to user_path(user), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: "btn btn-sm btn-outline-danger" do %>
+                        <i class="bi bi-trash"></i>
+                      <% end %>
+                    <% end %>
+                    <%= link_to edit_user_path(user), class: "btn btn-sm btn-outline-primary", data: { turbo: false } do %>
+                      <i class="bi bi-pencil-square"></i>
+                    <% end %>
+                  <% end%>
                 </div>
               </td>
             </tr>
