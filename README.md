@@ -29,10 +29,6 @@ This instructions shows how to initialize the project and using it with [docker]
 - Run command `docker-compose build` to configure the project
 - Run command `docker-compose up` to initialize the project
 - You can run tests, to do this, you have to be inside docker bash container with command `rspec`
-    - Specs may not working correctly without docker, as it depends on sidekiq, redis and selenium
-
-## Project presentation
-Link with project presentation: https://www.loom.com/share/1db6084de0d44b05a73b824f14b452b7
 
 ## Default user
 - Librarian
