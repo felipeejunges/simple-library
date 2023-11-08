@@ -93,8 +93,6 @@ GEM
     faraday-net_http (3.0.2)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    groupdate (6.4.0)
-      activesupport (>= 6.1)
     hashie (5.0.0)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
@@ -279,7 +277,6 @@ DEPENDENCIES
   chartkick (~> 5.0)
   cssbundling-rails
   debug
-  groupdate (~> 6.4)
   jbuilder
   jsbundling-rails
   pagy (~> 6.1)

@@ -7,6 +7,7 @@ class Api::V1::BorrowedsController < Api::V1::ApplicationController
     @borroweds = Borrowed.all
     sort_borroweds
     @pagy, @borroweds = pagy(@borroweds)
+    @pagination = pagy_metadata(@pagy)
   end
 
   def return_book

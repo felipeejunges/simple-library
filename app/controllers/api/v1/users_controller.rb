@@ -10,6 +10,7 @@ class Api::V1::UsersController < Api::V1::ApplicationController
     @users = User.all
     sort_users
     @pagy, @users = pagy(@users)
+    @pagination = pagy_metadata(@pagy)
   end
 
   # GET /api/v1/users/1 or /api/v1/users/1.json

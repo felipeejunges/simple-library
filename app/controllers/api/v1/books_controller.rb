@@ -10,6 +10,7 @@ class Api::V1::BooksController < Api::V1::ApplicationController
     @books = Book.all
     sort_books
     @pagy, @books = pagy(@books)
+    @pagination = pagy_metadata(@pagy)
   end
 
   def search
