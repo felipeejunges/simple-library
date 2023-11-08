@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::ApplicationController < ApplicationController
   before_action :set_default_response_format
   skip_before_action :verify_authenticity_token
