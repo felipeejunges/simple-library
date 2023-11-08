@@ -30,7 +30,10 @@ class Borrowed < ApplicationRecord
   end
 
   def return_book
-    return unless returned_at.blank?
+    unless returned_at.blank?
+      errors.add(:returned_at, 'Already Returned')
+      return false
+    end
 
     self.returned_at = Time.current
     save

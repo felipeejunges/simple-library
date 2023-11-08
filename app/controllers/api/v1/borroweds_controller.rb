@@ -9,10 +9,10 @@ class Api::V1::BorrowedsController < Api::V1::ApplicationController
     @pagy, @borroweds = pagy(@borroweds)
   end
 
-  def return_borrowed
-    @borrowed = Borrowed.find(params[:id])
+  def return_book
+    @borrowed = Borrowed.find(params[:borrowed_id])
     authorize @borrowed
-    if @borrowed.update(borrowed_params)
+    if @borrowed.return_book
       render :show, status: :ok, location: @borrowed
     else
       render json: @borrowed.errors, status: :unprocessable_entity
