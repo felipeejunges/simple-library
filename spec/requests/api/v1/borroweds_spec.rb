@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'swagger_helper'
 
 RSpec.describe 'api/v1/borroweds', type: :request do
-
   path '/api/v1/borroweds/{borrowed_id}/return_book' do
     # You'll want to customize the parameter types...
     parameter name: 'borrowed_id', in: :path, type: :string, description: 'borrowed_id'
@@ -23,10 +24,8 @@ RSpec.describe 'api/v1/borroweds', type: :request do
   end
 
   path '/api/v1/borroweds' do
-
     get('list borroweds') do
       response(200, 'successful') do
-
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
