@@ -1,0 +1,186 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/v1/books/{book_id}/details":
+    parameters:
+    - name: book_id
+      in: path
+      description: book_id
+      required: true
+      schema:
+        type: string
+    post:
+      summary: create detail
+      responses:
+        '200':
+          description: successful
+  "/api/v1/books/{book_id}/details/{id}":
+    parameters:
+    - name: book_id
+      in: path
+      description: book_id
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show detail
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update detail
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update detail
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete detail
+      responses:
+        '200':
+          description: successful
+  "/api/v1/books/search":
+    get:
+      summary: search book
+      responses:
+        '200':
+          description: successful
+  "/api/v1/books/{book_id}/borrow":
+    parameters:
+    - name: book_id
+      in: path
+      description: book_id
+      required: true
+      schema:
+        type: string
+    put:
+      summary: borrow book
+      responses:
+        '200':
+          description: successful
+  "/api/v1/books":
+    get:
+      summary: list books
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create book
+      responses:
+        '200':
+          description: successful
+  "/api/v1/books/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show book
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update book
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update book
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete book
+      responses:
+        '200':
+          description: successful
+  "/api/v1/borroweds/{borrowed_id}/return_book":
+    parameters:
+    - name: borrowed_id
+      in: path
+      description: borrowed_id
+      required: true
+      schema:
+        type: string
+    patch:
+      summary: return_book borrowed
+      responses:
+        '200':
+          description: successful
+  "/api/v1/borroweds":
+    get:
+      summary: list borroweds
+      responses:
+        '200':
+          description: successful
+  "/api/v1/dashboard":
+    get:
+      summary: list dashboards
+      responses:
+        '200':
+          description: successful
+  "/api/v1/login":
+    post:
+      summary: authenticate user_session
+      responses:
+        '200':
+          description: successful
+  "/api/v1/users":
+    get:
+      summary: list users
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create user
+      responses:
+        '200':
+          description: successful
+  "/api/v1/users/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show user
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update user
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update user
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete user
+      responses:
+        '200':
+          description: successful
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com
