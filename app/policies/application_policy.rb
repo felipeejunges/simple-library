@@ -9,7 +9,7 @@ class ApplicationPolicy
   end
 
   def index?
-    user.librarian?
+    true
   end
 
   def list?

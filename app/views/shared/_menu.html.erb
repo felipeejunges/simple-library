@@ -4,11 +4,13 @@
           <h2>FJ</h2>
       </a>
       <ul class="nav nav-pills nav-flush flex-sm-column flex-row flex-nowrap mb-auto mx-auto text-center align-items-center">
-        <li class="nav-item">
-            <a href=<%= users_path %> class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Home">
-                <i class="bi-people fs-1"></i>
-            </a>
-        </li>
+        <% if current_user.librarian? %>
+            <li class="nav-item">
+                <a href=<%= users_path %> class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Home">
+                    <i class="bi-people fs-1"></i>
+                </a>
+            </li>
+        <% end %>
         <li class="nav-item">
             <a href=<%= books_path %> class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Home">
                 <i class="bi-book fs-1"></i>

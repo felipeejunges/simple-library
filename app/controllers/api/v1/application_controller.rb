@@ -4,11 +4,15 @@ class Api::V1::ApplicationController < ApplicationController
 
   private
 
-  def not_authenticated
-    render json: { error: 'Not authenticated' }
-  end
-
   def set_default_response_format
     request.format = :json
+  end
+
+  def not_authenticated
+    render json: { error: 'Not authenticated' }, status: :unauthorized
+  end
+
+  def user_not_authorized
+    render json: { error: 'You are not authorized to perform this action.' }, status: :not_allowed
   end
 end
