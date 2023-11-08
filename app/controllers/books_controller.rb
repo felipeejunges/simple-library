@@ -65,7 +65,7 @@ class BooksController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def book_params
-    params.require(:book).permit(:title, :isbn, :synopsis, :copies)
+    params.require(:book).permit(:title, :isbn, :synopsis, :copies, :language, :pages, :series, :volume)
   end
 
   def set_books
@@ -84,11 +84,7 @@ class BooksController < ApplicationController
     return unless allow_sort
 
     sort_order = params[:sort_order] == 'DESC' ? 'DESC' : 'ASC'
-    sort = if params[:sort_by] == 'name'
-             { first_name: sort_order, last_name: sort_order }
-           else
-             { params[:sort_by].to_sym => sort_order }
-           end
+    sort = { params[:sort_by].to_sym => sort_order }
 
     @books = @books.order(sort)
   end

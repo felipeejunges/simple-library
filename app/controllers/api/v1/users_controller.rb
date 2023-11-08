@@ -12,7 +12,7 @@ class Api::V1::UsersController < Api::V1::ApplicationController
     @pagy, @users = pagy(@users)
   end
 
-  # GET /users/1 or /users/1.json
+  # GET /api/v1/users/1 or /api/v1/users/1.json
   def show; end
 
   # POST /users or /users.json
@@ -27,7 +27,6 @@ class Api::V1::UsersController < Api::V1::ApplicationController
 
   def update
     all_params = user_params
-    puts "\n\n\n\n\n >>>>>>>>>>>>>>> PASSING HEREEEE <<<<<<<<<<<<<<<<\n\n\n\n\n\n"
     all_params.merge!(password_params) if password_params[:password].present? && password_params[:password_confirmation].present?
     if @user.update(all_params)
       render :show, status: :ok, location: @user
@@ -36,7 +35,7 @@ class Api::V1::UsersController < Api::V1::ApplicationController
     end
   end
 
-  # DELETE /users/1 or /users/1.json
+  # DELETE /api/v1/users/1 or /api/v1/users/1.json
   def destroy
     if @user.destroy
       head :no_content
@@ -63,7 +62,7 @@ class Api::V1::UsersController < Api::V1::ApplicationController
   end
 
   def allow_sort
-    %w[id name email].include?(params[:sort_by].to_s)
+    %w[id name email role].include?(params[:sort_by].to_s)
   end
 
   def sort_users

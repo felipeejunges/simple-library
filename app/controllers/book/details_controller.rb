@@ -4,7 +4,7 @@ class Book::DetailsController < ApplicationController
   before action :set_book
   before_action :set_detail, only: %i[show edit update destroy]
 
-  # GET /details or /details.json
+  # GET /books/1/details or /books/1/details.json
   def index
     authorize Book::Detail
 
@@ -15,16 +15,16 @@ class Book::DetailsController < ApplicationController
     render(partial: 'details/table', locals: { details: @details })
   end
 
-  # GET /details/1 or /details/1.json
+  # GET /books/1/books/1/details1 or /books/1/books/1/details1.json
   def show; end
 
-  # GET /details/new
+  # GET /books/1/books/1/detailsnew
   def new
     authorize Book::Detail
     @detail = @book.details.new
   end
 
-  # POST /details or /details.json
+  # POST /books/1/details or /books/1/details.json
   def create
     @detail = @book.details.new(detail_params)
 
@@ -49,7 +49,7 @@ class Book::DetailsController < ApplicationController
     end
   end
 
-  # DELETE /details/1 or /details/1.json
+  # DELETE /books/1/books/1/details1 or /books/1/books/1/details1.json
   def destroy
     if @detail.destroy
       flash[:success] = 'Detail was successfully destroyed.'

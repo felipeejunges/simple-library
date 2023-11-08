@@ -36,11 +36,21 @@ class Book < ApplicationRecord
   end
 
   def borrow(user)
-    return '1' unless available?
+    unless available?
+      errors.add(:base, 'Not available')
+      return false
+    end
 
-    return '2' if already_borrowed_by_this_user?(user)
+    if already_borrowed_by_this_user?(user)
+      errors.add(:base, 'Already borrowed by this user')
+      return false
+    end
 
-    borroweds.create(borrowed_at: Date.current, user_id: user.id)
+    borrowed = borroweds.new(borrowed_at: Date.current, user_id: user.id)
+    return borrowed.borrowed_at + 2.weeks if borrowed.save
+
+    errors.add(:base, 'Unexpected Error')
+    false
   end
 end
 

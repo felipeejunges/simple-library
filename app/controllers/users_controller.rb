@@ -83,7 +83,7 @@ class UsersController < ApplicationController
   end
 
   def allow_sort
-    %w[id name email].include?(params[:sort_by].to_s)
+    %w[id name email role].include?(params[:sort_by].to_s)
   end
 
   def sort_users
