@@ -1,5 +1,5 @@
 
-# FJ Manager
+# Simple-Library
 [![Docker CI](https://github.com/felipeejunges/simple-library/actions/workflows/dockerci.yml/badge.svg?branch=main)](https://github.com/felipeejunges/simple-library/actions/workflows/dockerci.yml?query=branch%3Amain)
 
 This project is a client-invoice manager.
