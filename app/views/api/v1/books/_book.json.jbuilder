@@ -5,4 +5,4 @@ json.extract! book, :id, :title, :isbn, :copies, :language, :pages, :series, :vo
 json.authors book.authors
 json.genres book.genres
 json.publishers book.publishers
-json.url book_url(book, format: :json)
+json.url api_v1_book_url(book, format: :json)

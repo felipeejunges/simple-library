@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       post 'login' => 'user_sessions#authenticate'
-      get 'dashboard' => 'dashboards#index'
+      get 'dashboardde' => 'dashboards#index'
       resources :users, only: [:index, :show, :create, :update, :destroy]
       resources :books, only: [:index, :show, :create, :update, :destroy] do
         collection do

@@ -11,12 +11,7 @@ class Api::V1::Book::DetailsController < Api::V1::ApplicationController
   def create
     @detail = @book.details.new(detail_params)
 
-    if @detail.save
-      puts "\n\n\n\n >>> DETAIL: #{@detail.inspect} <<<\n\n\n\n"
-      render :show, status: :created, location: @detail
-    else
-      render json: @detail.errors, status: :unprocessable_entity
-    end
+    render json: @detail.errors, status: :unprocessable_entity unless @detail.save
   end
 
   def update
