@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Api::V1::BorrowedsController, type: :controller do
+RSpec.describe Api::V1::BorrowedsController, type: :controller do # rubocop:disable Metrics/BlockLength
   let(:librarian_user) { create(:user, role: 'librarian') }
   let(:member_user) { create(:user, role: 'member') }
   let(:book) { create(:book) }
@@ -30,7 +30,7 @@ RSpec.describe Api::V1::BorrowedsController, type: :controller do
     end
   end
 
-  describe 'PATCH #return_book' do  # rubocop:disable Metrics/BlockLength
+  describe 'PATCH #return_book' do # rubocop:disable Metrics/BlockLength
     let(:book) { FactoryBot.create(:book) }
     let(:borrowed_book) { FactoryBot.create(:borrowed, user: member_user, book:) }
 
