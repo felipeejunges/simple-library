@@ -10,7 +10,7 @@ class Api::V1::UserSessionsController < Api::V1::ApplicationController
         token:
       }
     else
-      render json: { error: 'Invalid email or password' }, status: :unprocessable_entity
+      render json: { error: 'Invalid email or password' }, status: :unauthorized
     end
   end
 end
