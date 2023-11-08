@@ -6,7 +6,8 @@ class Api::V1::BorrowedsController < Api::V1::ApplicationController
   def index
     authorize Borrowed
 
-    @borroweds = sort(Borrowed.all, ALLOWED_SORTS)
+    @borroweds = current_user.librarian? ? Borrowed.all : current_user.borroweds
+    @borroweds = sort(@borroweds, ALLOWED_SORTS)
     @pagy, @borroweds = pagy(@borroweds)
     @pagination = pagy_metadata(@pagy)
   end
@@ -14,10 +15,7 @@ class Api::V1::BorrowedsController < Api::V1::ApplicationController
   def return_book
     @borrowed = Borrowed.find(params[:borrowed_id])
     authorize @borrowed
-    if @borrowed.return_book
-      render :show, status: :ok, location: @borrowed
-    else
-      render json: @borrowed.errors, status: :unprocessable_entity
-    end
+
+    render json: @borrowed.errors, status: :unprocessable_entity unless @borrowed.return_book
   end
 end

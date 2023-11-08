@@ -4,6 +4,8 @@ class Borrowed < ApplicationRecord
   belongs_to :user
   belongs_to :book
 
+  validates_presence_of :user_id, :book_id, :borrowed_at
+
   scope :late, lambda {
     not_returned
       .where('borrowed_at < ?', 2.weeks.ago)

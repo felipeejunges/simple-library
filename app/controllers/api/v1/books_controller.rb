@@ -16,9 +16,9 @@ class Api::V1::BooksController < Api::V1::ApplicationController
 
   def search
     authorize Book
-    @books = Book.search(params[:query])
-    sort_books
+    @books = sort(Book.search(params[:query]), ALLOWED_SORTS)
     @pagy, @books = pagy(@books)
+    @pagination = pagy_metadata(@pagy)
     render :index
   end
 
@@ -28,6 +28,7 @@ class Api::V1::BooksController < Api::V1::ApplicationController
   # POST /books or /books.json
   def create
     @book = Book.new(book_params)
+    authorize @book
     if @book.save
       if details_params.present?
         details_params[:details].each do |detail|
@@ -58,7 +59,7 @@ class Api::V1::BooksController < Api::V1::ApplicationController
   end
 
   def borrow
-    user = User.find(users_params[:id])
+    user = current_user.librarian? ? User.find(users_params[:id]) : current_user
     borrowed = @book.borrow(user)
     if borrowed
       render json: { expected_return: borrowed.expected_return, borrowed_id: borrowed.id }, status: :ok

@@ -20,6 +20,7 @@ class Api::V1::UsersController < Api::V1::ApplicationController
   # POST /users or /users.json
   def create
     @user = User.new(user_params.merge(password_params))
+    authorize @user
     if @user.save
       render :show, status: :created, location: @user
     else
@@ -29,6 +30,7 @@ class Api::V1::UsersController < Api::V1::ApplicationController
 
   def update
     all_params = user_params
+    all_params.delete(:role) unless current_user.librarian?
     all_params.merge!(password_params) if password_params[:password].present? && password_params[:password_confirmation].present?
     if @user.update(all_params)
       render :show, status: :ok, location: @user

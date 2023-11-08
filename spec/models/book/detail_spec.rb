@@ -1,15 +1,16 @@
 # frozen_string_literal: true
 
-class Book::Detail < ApplicationRecord
-  belongs_to :book
+require 'rails_helper'
 
-  validates_presence_of :name, :description
+RSpec.describe Book::Detail, type: :model do
+  describe 'validations' do
+    it { should validate_presence_of(:name) }
+    it { should validate_presence_of(:description) }
+  end
 
-  enum name: {
-    author: 1,
-    genre: 2,
-    publisher: 3
-  }
+  describe 'associations' do
+    it { should belong_to(:book) }
+  end
 end
 
 # == Schema Information

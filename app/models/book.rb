@@ -8,7 +8,7 @@ class Book < ApplicationRecord
   validates :isbn, uniqueness: true
 
   scope :search, lambda { |query|
-    joins(:details).where('books.title LIKE ? OR books.isbn LIKE ? OR book_details.description LIKE ?', "%#{query}%", "%#{query}%", "%#{query}%")
+    left_joins(:details).where('books.title LIKE ? OR books.isbn LIKE ? OR book_details.description LIKE ?', "%#{query}%", "%#{query}%", "%#{query}%")
   }
 
   def self.total_books
