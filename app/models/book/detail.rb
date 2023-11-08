@@ -3,6 +3,8 @@
 class Book::Detail < ApplicationRecord
   belongs_to :book
 
+  validates_presence_of :name, :description
+
   enum name: {
     author: 1,
     genre: 2,
