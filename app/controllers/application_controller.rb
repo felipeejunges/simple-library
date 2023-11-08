@@ -18,6 +18,19 @@ class ApplicationController < ActionController::Base
 
   def user_not_authorized
     flash[:alert] = 'You are not authorized to perform this action.'
-    redirect_to(request.env['HTTP_REFERER'])
+    redirect_to(:back)
+  end
+
+  def allow_sort(alloweds)
+    alloweds.include?(params[:sort_by].to_s)
+  end
+
+  def sort(objects, alloweds)
+    return objects unless allow_sort(alloweds)
+
+    sort_order = params[:sort_order] == 'DESC' ? 'DESC' : 'ASC'
+    sortable = { params[:sort_by].to_sym => sort_order }
+
+    objects.order(sortable)
   end
 end

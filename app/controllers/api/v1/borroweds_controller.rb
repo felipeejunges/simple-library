@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 class Api::V1::BorrowedsController < Api::V1::ApplicationController
+  ALLOWED_SORTS = %w[id].freeze
+
   def index
     authorize Borrowed
 
-    @borroweds = Borrowed.all
-    sort_borroweds
+    @borroweds = sort(Borrowed.all, ALLOWED_SORTS)
     @pagy, @borroweds = pagy(@borroweds)
     @pagination = pagy_metadata(@pagy)
   end
@@ -18,20 +19,5 @@ class Api::V1::BorrowedsController < Api::V1::ApplicationController
     else
       render json: @borrowed.errors, status: :unprocessable_entity
     end
-  end
-
-  private
-
-  def allow_sort
-    %w[id].include?(params[:sort_by].to_s)
-  end
-
-  def sort_borroweds
-    return unless allow_sort
-
-    sort_order = params[:sort_order] == 'DESC' ? 'DESC' : 'ASC'
-    sort = { params[:sort_by].to_sym => sort_order }
-
-    @borroweds = @borroweds.order(sort)
   end
 end

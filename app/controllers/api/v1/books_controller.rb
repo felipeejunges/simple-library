@@ -3,12 +3,13 @@
 class Api::V1::BooksController < Api::V1::ApplicationController
   before_action :set_book, only: %i[show update destroy borrow]
 
+  ALLOWED_SORTS = %w[id title isbn].freeze
+
   # GET /books or /books.json
   def index
     authorize Book
 
-    @books = Book.all
-    sort_books
+    @books = sort(Book, ALLOWED_SORTS)
     @pagy, @books = pagy(@books)
     @pagination = pagy_metadata(@pagy)
   end
@@ -85,18 +86,5 @@ class Api::V1::BooksController < Api::V1::ApplicationController
 
   def users_params
     params.require(:user).permit(:id)
-  end
-
-  def allow_sort
-    %w[id title isbn].include?(params[:sort_by].to_s)
-  end
-
-  def sort_books
-    return unless allow_sort
-
-    sort_order = params[:sort_order] == 'DESC' ? 'DESC' : 'ASC'
-    sort = { params[:sort_by].to_sym => sort_order }
-
-    @books = @books.order(sort)
   end
 end
