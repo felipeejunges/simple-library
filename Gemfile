@@ -57,6 +57,7 @@ group :development, :test do
   gem "rubocop"
   gem "rubocop-rails"
   gem "rubocop-rspec"
+  gem 'rswag-specs'
 end
 
 group :development do
@@ -88,6 +89,9 @@ gem "annotate", "~> 3.2"
 
 gem "chartkick", "~> 5.0"
 
+gem 'rswag-api'
+
+gem 'rswag-ui'
 
 gem "pundit", "~> 2.3"
 
