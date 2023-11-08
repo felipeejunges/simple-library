@@ -27,7 +27,7 @@ Rails.application.routes.draw do
           get 'search'
         end
         put 'borrow'
-        resources :details, only: [:create, :update, :destroy]
+        resources :details, only: [:show, :create, :update, :destroy], controller: 'book/details'
       end
       resources :borroweds, only: :index do
         patch 'return_book'
@@ -37,5 +37,5 @@ Rails.application.routes.draw do
 
 
   # Defines the root path route ("/"),
-  root "users#index"
+  root "books#index"
 end

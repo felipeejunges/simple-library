@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Book::DetailsController < ApplicationController
-  before action :set_book
+  before_action :set_book
   before_action :set_detail, only: %i[show edit update destroy]
 
   # GET /books/1/details or /books/1/details.json

@@ -1,14 +1,18 @@
 # frozen_string_literal: true
 
 class Api::V1::Book::DetailsController < Api::V1::ApplicationController
-  before action :set_book
+  before_action :set_book
   before_action :set_detail, only: %i[show update destroy]
+
+  # GET /api/v1/books/1 or /api/v1/books/1.json
+  def show; end
 
   # POST /books/1/details or /books/1/details.json
   def create
     @detail = @book.details.new(detail_params)
 
     if @detail.save
+      puts "\n\n\n\n >>> DETAIL: #{@detail.inspect} <<<\n\n\n\n"
       render :show, status: :created, location: @detail
     else
       render json: @detail.errors, status: :unprocessable_entity
