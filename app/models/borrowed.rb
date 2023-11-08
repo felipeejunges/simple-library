@@ -3,6 +3,27 @@
 class Borrowed < ApplicationRecord
   belongs_to :user
   belongs_to :book
+
+  scope :late, lambda {
+    not_returned
+      .where('borrowed_at < ?', 2.weeks.ago)
+  }
+
+  scope :not_returned, lambda {
+    where(returned_at: nil)
+  }
+
+  def self.total_borroweds
+    not_returned.count
+  end
+
+  def self.total_lates
+    Borrowed.late.count
+  end
+
+  def late?
+    returned_at.blank? && borrowed_at < 2.weeks.ago
+  end
 end
 
 # == Schema Information

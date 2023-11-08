@@ -11,6 +11,10 @@ class Book < ApplicationRecord
     joins(:details).where('books.title LIKE ? OR books.isbn LIKE ? OR book_details.description LIKE ?', "%#{query}%", "%#{query}%", "%#{query}%")
   }
 
+  def self.total_books
+    Book.sum(:copies)
+  end
+
   def authors
     details.where(name: :author).pluck(:description)
   end
@@ -21,6 +25,22 @@ class Book < ApplicationRecord
 
   def publishers
     details.where(name: :publisher).pluck(:description)
+  end
+
+  def available?
+    borroweds.not_returned.count < copies
+  end
+
+  def already_borrowed_by_this_user?(user)
+    borroweds.not_returned.where(user_id: user.id).any?
+  end
+
+  def borrow(user)
+    return '1' unless available?
+
+    return '2' if already_borrowed_by_this_user?(user)
+
+    borroweds.create(borrowed_at: Date.current, user_id: user.id)
   end
 end
 
