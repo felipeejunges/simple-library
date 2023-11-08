@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  protect_from_forgery with: :exception, unless: -> { request.format.json? }
-  # protect_from_forgery with: :exception, if: proc { |c| c.request.format != 'application/json' }
-  # protect_from_forgery with: :null_session, if: proc { |c| c.request.format == 'application/json' }
   include Pagy::Backend
   include Pundit::Authorization
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   before_action :require_login
 
@@ -16,5 +14,10 @@ class ApplicationController < ActionController::Base
       format.html { redirect_to '/login' }
       format.json { render json: { error: 'Not authenticated' } }
     end
+  end
+
+  def user_not_authorized
+    flash[:alert] = 'You are not authorized to perform this action.'
+    redirect_to(request.env['HTTP_REFERER'])
   end
 end

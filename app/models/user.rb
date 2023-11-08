@@ -18,6 +18,10 @@ class User < ApplicationRecord
     librarian: 2
   }, _default: 'member'
 
+  def self.with_overdue_books
+    Borrowed.late.joins(:user).pluck(:user_id, :first_name, :last_name).uniq
+  end
+
   def name
     "#{first_name} #{last_name}"
   end

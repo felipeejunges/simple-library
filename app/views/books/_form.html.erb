@@ -1,0 +1,79 @@
+<%= form_with(model: book) do |form| %>
+  <div class="row">
+    <div class="col-12">
+      <% if book.errors.any? %>
+        <div style="color: red">
+          <h2><%= pluralize(book.errors.count, "error") %> prohibited this book from being saved:</h2>
+
+          <ul>
+            <% book.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-6 mb-1">
+      <div class="form-floating">
+        <%= form.text_field :title, class: "form-control", readonly: readonly %>
+        <%= form.label :title %>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-6 mb-1">
+      <div class="form-floating">
+        <%= form.text_field :series, class: "form-control", readonly: readonly %>
+        <%= form.label :series %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-2 mb-1">
+      <div class="form-floating">
+        <%= form.number_field :volume, class: "form-control", readonly: readonly, min: 0, step: 1 %>
+        <%= form.label :volume %>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-2 mb-1">
+      <div class="form-floating">
+        <%= form.number_field :copies, class: "form-control", readonly: readonly, min: 0, step: 1 %>
+        <%= form.label :copies %>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-2 mb-1">
+      <div class="form-floating">
+        <%= form.number_field :pages, class: "form-control", readonly: readonly, min: 0, step: 1 %>
+        <%= form.label :pages %>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-3 mb-1">
+      <div class="form-floating">
+        <%= form.text_field :language, class: "form-control", readonly: readonly %>
+        <%= form.label :language %>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-3 mb-1">
+      <div class="form-floating">
+        <%= form.text_field :isbn, class: "form-control", readonly: readonly %>
+        <%= form.label :isbn %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 mb-1">
+      <div class="form-floating">
+        <%= form.text_area :synopsis, class: "form-control"%>
+        <%= form.label :synopsis %>
+      </div>
+    </div>
+  </div>
+  <% unless readonly %>
+    <div class="row">
+      <div class="col-12">
+        <%= form.submit 'Save', class: "btn btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+

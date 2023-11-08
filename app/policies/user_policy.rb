@@ -2,7 +2,7 @@
 
 class UserPolicy < ApplicationPolicy
   def index?
-    true
+    user.librarian?
   end
 
   def update?

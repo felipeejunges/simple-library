@@ -6,48 +6,26 @@ class UserSessionsController < ApplicationController
   def signin; end
 
   def authenticate
-    respond_to do |format|
-      format.html do
-        user = login(params[:user][:email], params[:user][:password])
-        if user
-          flash[:success] = "Welcome, #{current_user.name}"
-          redirect_to root_path
-        else
-          flash[:alert] = 'Invalid email or password'
-          render :signin, status: :unprocessable_entity
-        end
-      end
-      format.json do
-        token = login_and_issue_token(params[:user][:email], params[:user][:password])
-        if token
-          render json: {
-            token:
-          }
-        else
-          render json: { error: 'Invalid email or password' }, status: :unprocessable_entity
-        end
-      end
+    user = login(params[:user][:email], params[:user][:password])
+    if user
+      flash[:success] = "Welcome, #{current_user.name}"
+      redirect_to root_path
+    else
+      flash[:alert] = 'Invalid email or password'
+      render :signin, status: :unprocessable_entity
     end
   end
 
   def signout
     logout
-    respond_to do |format|
-      format.json { render json: { message: 'Sucessful Logout' } }
-      format.html { redirect_to login_path }
-    end
+    redirect_to login_path
   end
 
   private
 
   def redirect_already_logged
-    respond_to do |format|
-      format.html do
-        return if current_user.blank?
+    return if current_user.blank?
 
-        redirect_to '/'
-      end
-      format.json {}
-    end
+    redirect_to '/'
   end
 end

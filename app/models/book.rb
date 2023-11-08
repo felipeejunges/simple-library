@@ -4,7 +4,7 @@ class Book < ApplicationRecord
   has_many :details
   has_many :borroweds
 
-  validates :title, :isbn, presence: true
+  validates :title, :isbn, :copies, presence: true
   validates :isbn, uniqueness: true
 
   scope :search, lambda { |query|
@@ -16,15 +16,15 @@ class Book < ApplicationRecord
   end
 
   def authors
-    details.where(name: :author).pluck(:description)
+    details.where(name: :author).order(:description).pluck(:description)
   end
 
   def genres
-    details.where(name: :genre).pluck(:description)
+    details.where(name: :genre).order(:description).pluck(:description)
   end
 
   def publishers
-    details.where(name: :publisher).pluck(:description)
+    details.where(name: :publisher).order(:description).pluck(:description)
   end
 
   def available?
@@ -36,11 +36,21 @@ class Book < ApplicationRecord
   end
 
   def borrow(user)
-    return '1' unless available?
+    unless available?
+      errors.add(:base, 'Not available')
+      return false
+    end
 
-    return '2' if already_borrowed_by_this_user?(user)
+    if already_borrowed_by_this_user?(user)
+      errors.add(:base, 'Already borrowed by this user')
+      return false
+    end
 
-    borroweds.create(borrowed_at: Date.current, user_id: user.id)
+    borrowed = borroweds.new(borrowed_at: Date.current, user_id: user.id)
+    return borrowed if borrowed.save
+
+    errors.add(:base, 'Unexpected Error')
+    false
   end
 end
 

@@ -24,60 +24,35 @@ class BooksController < ApplicationController
   def create
     @book = Book.new(book_params)
 
-    respond_to do |format|
-      if @book.save
-        format.html do
-          flash[:success] = 'Book was successfully created.'
-          redirect_to book_url(@book)
-        end
-        format.json { render :show, status: :created, location: @book }
-      else
-        format.html do
-          flash[:error] = 'Book not created'
-          render :new, status: :unprocessable_entity
-        end
-        format.json { render json: @book.errors, status: :unprocessable_entity }
-      end
+    if @book.save
+      flash[:success] = 'Book was successfully created.'
+      redirect_to book_url(@book)
+    else
+      flash[:error] = 'Book not created'
+      render :new, status: :unprocessable_entity
     end
   end
 
   def edit; end
 
   def update
-    respond_to do |format|
-      if @book.update(book_params)
-        format.html do
-          flash[:success] = 'Book was successfully updated.'
-          redirect_to book_url(@book)
-        end
-        format.json { render :show, status: :ok, location: @book }
-      else
-        format.html do
-          flash[:error] = 'Book not updated'
-          render :edit, status: :unprocessable_entity
-        end
-        format.json { render json: @book.errors, status: :unprocessable_entity }
-      end
+    if @book.update(book_params)
+      flash[:success] = 'Book was successfully updated.'
+      redirect_to book_url(@book)
+    else
+      flash[:error] = 'Book not updated'
+      render :edit, status: :unprocessable_entity
     end
   end
 
   # DELETE /books/1 or /books/1.json
   def destroy
-    respond_to do |format|
-      if @book.destroy
-        format.html do
-          flash[:success] = 'Book was successfully destroyed.'
-          redirect_to books_url
-        end
-        format.json { head :no_content }
-      else
-        format.html do
-          flash[:error] = 'Book not deleted'
-          redirect_to books_url
-        end
-        format.json { render json: @book.errors, status: :unprocessable_entity }
-      end
+    if @book.destroy
+      flash[:success] = 'Book was successfully destroyed.'
+    else
+      flash[:error] = 'Book not deleted'
     end
+    redirect_to books_url
   end
 
   private
@@ -90,7 +65,7 @@ class BooksController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def book_params
-    params.require(:book).permit(:title, :isbn, :synopsis, :copies)
+    params.require(:book).permit(:title, :isbn, :synopsis, :copies, :language, :pages, :series, :volume)
   end
 
   def set_books
