@@ -24,6 +24,17 @@ class Borrowed < ApplicationRecord
   def late?
     returned_at.blank? && borrowed_at < 2.weeks.ago
   end
+
+  def expected_return
+    borrowed_at + 2.weeks
+  end
+
+  def return_book
+    return unless returned_at.blank?
+
+    self.returned_at = Time.current
+    save
+  end
 end
 
 # == Schema Information

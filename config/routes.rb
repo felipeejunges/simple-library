@@ -28,6 +28,9 @@ Rails.application.routes.draw do
         end
         resources :details, only: [:create, :update, :destroy]
       end
+      resources :borroweds, only: :index do
+        get 'return_book'
+      end
     end
   end
 
