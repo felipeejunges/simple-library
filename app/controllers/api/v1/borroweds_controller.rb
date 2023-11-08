@@ -15,10 +15,7 @@ class Api::V1::BorrowedsController < Api::V1::ApplicationController
   def return_book
     @borrowed = Borrowed.find(params[:borrowed_id])
     authorize @borrowed
-    if @borrowed.return_book
-      render :show, status: :ok, location: @borrowed
-    else
-      render json: @borrowed.errors, status: :unprocessable_entity
-    end
+
+    render json: @borrowed.errors, status: :unprocessable_entity unless @borrowed.return_book
   end
 end

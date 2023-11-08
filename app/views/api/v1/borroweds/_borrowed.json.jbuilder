@@ -5,3 +5,4 @@ json.user borrowed.user.name
 json.book borrowed.book.title
 json.late borrowed.late?
 json.expected_return borrowed.expected_return
+json.url api_v1_borrowed_url(borrowed, format: :json)
