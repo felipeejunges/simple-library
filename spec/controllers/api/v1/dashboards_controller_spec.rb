@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe Api::V1::DashboardsController, type: :controller do
+RSpec.describe Api::V1::DashboardsController, type: :controller do # rubocop:disable Metrics/BlockLength
   let(:librarian_user) { FactoryBot.create(:user, role: 'librarian') }
   let(:member_user) { FactoryBot.create(:user, role: 'member') }
   let(:book) { FactoryBot.create(:book) }

@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe Api::V1::UsersController, type: :controller do
+RSpec.describe Api::V1::UsersController, type: :controller do # rubocop:disable Metrics/BlockLength
   let(:librarian_user) { create(:user, role: 'librarian') }
   let(:member_user) { create(:user, role: 'member') }
 

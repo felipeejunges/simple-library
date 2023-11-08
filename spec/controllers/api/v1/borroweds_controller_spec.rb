@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Api::V1::BorrowedsController, type: :controller do
@@ -28,7 +30,7 @@ RSpec.describe Api::V1::BorrowedsController, type: :controller do
     end
   end
 
-  describe 'PATCH #return_book' do
+  describe 'PATCH #return_book' do  # rubocop:disable Metrics/BlockLength
     let(:book) { FactoryBot.create(:book) }
     let(:borrowed_book) { FactoryBot.create(:borrowed, user: member_user, book:) }
 
