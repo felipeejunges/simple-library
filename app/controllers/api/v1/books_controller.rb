@@ -28,8 +28,10 @@ class Api::V1::BooksController < Api::V1::ApplicationController
   def create
     @book = Book.new(book_params)
     if @book.save
-      details_params[:details].each do |detail|
-        @book.details.create(name: detail[:name], description: detail[:description])
+      if details_params.present?
+        details_params[:details].each do |detail|
+          @book.details.create(name: detail['name'], description: detail['description'])
+        end
       end
       render :show, status: :created, location: @book
     else
@@ -78,7 +80,7 @@ class Api::V1::BooksController < Api::V1::ApplicationController
   end
 
   def details_params
-    params.require(:book).require(:details).permit(details: %i[name description])
+    params.require(:book).permit(details: %i[name description])
   end
 
   def users_params
