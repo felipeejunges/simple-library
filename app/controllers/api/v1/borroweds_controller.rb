@@ -6,7 +6,8 @@ class Api::V1::BorrowedsController < Api::V1::ApplicationController
   def index
     authorize Borrowed
 
-    @borroweds = sort(Borrowed.all, ALLOWED_SORTS)
+    @borroweds = current_user.librarian? ? Borrowed.all : current_user.borroweds
+    @borroweds = sort(@borroweds, ALLOWED_SORTS)
     @pagy, @borroweds = pagy(@borroweds)
     @pagination = pagy_metadata(@pagy)
   end

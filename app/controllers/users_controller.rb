@@ -39,6 +39,7 @@ class UsersController < ApplicationController
 
   def update
     all_params = user_params
+    all_params.delete(:role) unless current_user.librarian?
     all_params.merge!(password_params) if password_params[:password].present? && password_params[:password_confirmation].present?
     if @user.update(all_params)
       flash[:success] = 'User was successfully updated.'

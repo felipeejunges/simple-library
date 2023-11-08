@@ -15,6 +15,6 @@ class Api::V1::ApplicationController < ApplicationController
   end
 
   def user_not_authorized
-    render json: { error: 'You are not authorized to perform this action.' }, status: :not_allowed
+    render json: { error: 'You are not authorized to perform this action.' }, status: :unauthorized
   end
 end
