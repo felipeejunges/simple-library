@@ -26,6 +26,7 @@ Rails.application.routes.draw do
         collection do
           get 'search'
         end
+        put 'borrow'
         resources :details, only: [:create, :update, :destroy]
       end
       resources :borroweds, only: :index do

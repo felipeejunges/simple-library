@@ -47,7 +47,7 @@ class Book < ApplicationRecord
     end
 
     borrowed = borroweds.new(borrowed_at: Date.current, user_id: user.id)
-    return borrowed.borrowed_at + 2.weeks if borrowed.save
+    return borrowed if borrowed.save
 
     errors.add(:base, 'Unexpected Error')
     false

@@ -55,9 +55,9 @@ class Api::V1::BooksController < Api::V1::ApplicationController
 
   def borrow
     user = User.find(users_params[:id])
-    expected_return = @book.borrow(user)
-    if expected_return
-      render json: { expected_return: }, status: :ok
+    borrowed = @book.borrow(user)
+    if borrowed
+      render json: { expected_return: borrowed.expected_return, borrowed_id: borrowed.id }, status: :ok
     else
       render json: @book.errors, status: :unprocessable_entity
     end
@@ -67,7 +67,7 @@ class Api::V1::BooksController < Api::V1::ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_book
-    @book = Book.find(params[:id])
+    @book = Book.find(params[:book_id] || params[:id])
     authorize @book
   end
 
