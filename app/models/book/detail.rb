@@ -1,6 +1,13 @@
 # frozen_string_literal: true
 
 class Book::Detail < ApplicationRecord
+  belongs_to :book
+
+  enum name: {
+    author: 1,
+    genre: 2,
+    publisher: 3
+  }
 end
 
 # == Schema Information
@@ -8,7 +15,7 @@ end
 # Table name: book_details
 #
 #  id          :integer          not null, primary key
-#  name        :string
+#  name        :integer
 #  description :string
 #  book_id     :integer
 #  created_at  :datetime         not null

@@ -18,4 +18,16 @@ def users
   end
 end
 
+def books
+  data('books').each do |b|
+    book = Book.find_or_create_by(title: b['title'], isbn: b['isbn'], synopsis: b['synopsis'], series: b['series'], copies: b['copies'],
+                                  language: b['language'], volume: b['volume'], pages: b['pages'])
+
+    b['details'].each do |d|
+      book.details.find_or_create_by(name: d['name'], description: d['description'])
+    end
+  end
+end
+
 users
+books

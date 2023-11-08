@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema[7.0].define(version: 2023_11_06_183821) do
   create_table "book_details", force: :cascade do |t|
-    t.string "name"
+    t.integer "name"
     t.string "description"
     t.integer "book_id"
     t.datetime "created_at", null: false
@@ -25,6 +25,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_06_183821) do
     t.string "isbn"
     t.string "synopsis"
     t.integer "copies"
+    t.string "language"
+    t.integer "pages"
+    t.string "series"
+    t.integer "volume"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
