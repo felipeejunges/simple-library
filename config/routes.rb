@@ -9,15 +9,12 @@ Rails.application.routes.draw do
     collection do
       get 'list'
     end
-
-    resources :books
   end
 
   resources :books do
     collection do
       get 'list'
     end
-
     resources :details
   end
 
@@ -25,6 +22,9 @@ Rails.application.routes.draw do
     namespace :v1 do
       post 'login' => 'user_sessions#authenticate'
       resources :users, only: [:index, :show, :create, :update, :destroy]
+      resources :books, only: [:index, :show, :create, :update, :destroy] do
+        resources :details, only: [:index, :show, :create, :update, :destroy]
+      end
     end
   end
 

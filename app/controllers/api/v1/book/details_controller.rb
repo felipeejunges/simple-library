@@ -2,7 +2,7 @@
 
 class Book::DetailsController < ApplicationController
   before action :set_book
-  before_action :set_detail, only: %i[show edit update destroy]
+  before_action :set_detail, only: %i[show update destroy]
 
   # GET /details or /details.json
   def index
@@ -11,52 +11,37 @@ class Book::DetailsController < ApplicationController
     @details = @books.details.all
     sort_details
     @pagy, @details = pagy(@details)
-
-    render(partial: 'details/table', locals: { details: @details })
   end
 
   # GET /details/1 or /details/1.json
   def show; end
-
-  # GET /details/new
-  def new
-    authorize Book::Detail
-    @detail = @book.details.new
-  end
 
   # POST /details or /details.json
   def create
     @detail = @book.details.new(detail_params)
 
     if @detail.save
-      flash[:success] = 'Detail was successfully created.'
-      redirect_to detail_url(@detail)
+      render :show, status: :created, location: @detail
     else
-      flash[:error] = 'Detail not created'
-      render :new, status: :unprocessable_entity
+      render json: @detail.errors, status: :unprocessable_entity
     end
   end
 
-  def edit; end
-
   def update
     if @detail.update(detail_params)
-      flash[:success] = 'Detail was successfully updated.'
-      redirect_to detail_url(@detail)
+      render :show, status: :ok, location: @detail
     else
-      flash[:error] = 'Detail not updated'
-      render :edit, status: :unprocessable_entity
+      render json: @detail.errors, status: :unprocessable_entity
     end
   end
 
   # DELETE /details/1 or /details/1.json
   def destroy
     if @detail.destroy
-      flash[:success] = 'Detail was successfully destroyed.'
+      head :no_content
     else
-      flash[:error] = 'Detail not deleted'
+      render json: @detail.errors, status: :unprocessable_entity
     end
-    redirect_to details_url
   end
 
   private
