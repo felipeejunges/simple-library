@@ -10,3 +10,19 @@ RSpec.describe Book::Detail, type: :model do
     it { should belong_to(:book) }
   end
 end
+
+# == Schema Information
+#
+# Table name: book_details
+#
+#  id          :integer          not null, primary key
+#  name        :integer
+#  description :string
+#  book_id     :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+# Indexes
+#
+#  index_book_details_on_book_id  (book_id)
+#

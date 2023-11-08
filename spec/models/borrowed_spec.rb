@@ -16,7 +16,7 @@ RSpec.describe Borrowed, type: :model do # rubocop:disable Metrics/BlockLength
   end
 
   describe 'scopes' do
-    describe '.not_returned' do
+    context '.not_returned' do
       let!(:returned_borrowed) { create(:borrowed, returned_at: Time.current) }
       let!(:not_returned_borrowed) { create(:borrowed, returned_at: nil) }
 
@@ -25,12 +25,30 @@ RSpec.describe Borrowed, type: :model do # rubocop:disable Metrics/BlockLength
       end
     end
 
-    describe '.late' do
+    context '.late' do
       let!(:late_borrowed) { create(:borrowed, borrowed_at: 3.weeks.ago) }
       let!(:not_late_borrowed) { create(:borrowed, borrowed_at: 1.week.ago) }
 
       it 'returns late borroweds' do
         expect(Borrowed.late).to contain_exactly(late_borrowed)
+      end
+    end
+  end
+
+  describe 'class methods' do
+    context '.total_borroweds' do
+      it 'returns the total number of borroweds' do
+        create_list(:borrowed, 3)
+        expect(Borrowed.total_borroweds).to eq(3)
+      end
+    end
+
+    context '.total_lates' do
+      it 'returns the total number of overdue borroweds' do
+        overdue_borroweds = create_list(:borrowed, 2, borrowed_at: 3.weeks.ago, returned_at: nil)
+        create_list(:borrowed, 3, borrowed_at: 1.week.ago, returned_at: Time.current)
+
+        expect(Borrowed.total_lates).to eq(overdue_borroweds.count)
       end
     end
   end
@@ -89,3 +107,21 @@ RSpec.describe Borrowed, type: :model do # rubocop:disable Metrics/BlockLength
     end
   end
 end
+
+# == Schema Information
+#
+# Table name: borroweds
+#
+#  id          :integer          not null, primary key
+#  user_id     :integer
+#  book_id     :integer
+#  borrowed_at :datetime
+#  returned_at :datetime
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+# Indexes
+#
+#  index_borroweds_on_book_id  (book_id)
+#  index_borroweds_on_user_id  (user_id)
+#

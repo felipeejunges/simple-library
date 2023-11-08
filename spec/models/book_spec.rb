@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Book, type: :model do
+RSpec.describe Book, type: :model do # rubocop:disable Metrics/BlockLength
   let(:book) { create(:book, copies: 3) }
   let(:user) { create(:user) }
 
@@ -13,12 +13,34 @@ RSpec.describe Book, type: :model do
     it { should validate_uniqueness_of(:isbn) }
   end
 
+  describe 'scopes' do
+    describe '.search' do
+      it 'returns books matching the provided query' do
+        book1 = create(:book, title: 'Harry Potter and the Sorcerer\'s Stone')
+        book2 = create(:book, title: 'Lord of the Rings: Fellowship of the Ring')
+
+        results = Book.search('Harry Potter')
+        expect(results).to include(book1)
+        expect(results).not_to include(book2)
+      end
+    end
+  end
+
   describe 'associations' do
     it { should have_many(:borroweds) }
     it { should have_many(:details) }
   end
 
-  describe 'methods' do
+  describe 'class methods' do
+    describe '.total_books' do
+      it 'returns the total number of books' do
+        book
+        expect(Book.total_books).to eq(3)
+      end
+    end
+  end
+
+  describe 'methods' do # rubocop:disable Metrics/BlockLength
     describe '#publishers' do
       it 'returns the list of publishers associated with the book' do
         publisher = create(:book_detail, name: :publisher, book:)
@@ -89,3 +111,20 @@ RSpec.describe Book, type: :model do
     end
   end
 end
+
+# == Schema Information
+#
+# Table name: books
+#
+#  id         :integer          not null, primary key
+#  title      :string
+#  isbn       :string
+#  synopsis   :string
+#  copies     :integer
+#  language   :string
+#  pages      :integer
+#  series     :string
+#  volume     :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
