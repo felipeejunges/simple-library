@@ -1,60 +1,48 @@
 # frozen_string_literal: true
 
-class UsersController < ApplicationController
-  before_action :set_users, only: %i[index list]
-  before_action :set_user, only: %i[show edit update destroy]
+class Api::V1::UsersController < Api::V1::ApplicationController
+  before_action :set_user, only: %i[show update destroy]
 
   # GET /users or /users.json
-  def index; end
+  def index
+    authorize User
 
-  def list
-    render(partial: 'users/table', locals: { users: @users })
+    @users = User.all
+    sort_users
+    @pagy, @users = pagy(@users)
   end
 
   # GET /users/1 or /users/1.json
   def show; end
 
-  # GET /users/new
-  def new
-    authorize User
-    @user = User.new
-  end
-
   # POST /users or /users.json
   def create
     @user = User.new(user_params.merge(password_params))
-
     if @user.save
-      flash[:success] = 'User was successfully created.'
-      redirect_to user_url(@user)
+      render :show, status: :created, location: @user
     else
-      flash[:error] = 'User not created'
-      render :new, status: :unprocessable_entity
+      render json: @user.errors, status: :unprocessable_entity
     end
   end
 
-  def edit; end
-
   def update
     all_params = user_params
+    puts "\n\n\n\n\n >>>>>>>>>>>>>>> PASSING HEREEEE <<<<<<<<<<<<<<<<\n\n\n\n\n\n"
     all_params.merge!(password_params) if password_params[:password].present? && password_params[:password_confirmation].present?
     if @user.update(all_params)
-      flash[:success] = 'User was successfully updated.'
-      redirect_to user_url(@user)
+      render :show, status: :ok, location: @user
     else
-      flash[:error] = 'User not updated'
-      render :edit, status: :unprocessable_entity
+      render json: @user.errors, status: :unprocessable_entity
     end
   end
 
   # DELETE /users/1 or /users/1.json
   def destroy
     if @user.destroy
-      flash[:success] = 'User was successfully destroyed.'
+      head :no_content
     else
-      flash[:error] = 'User not deleted'
+      render json: @user.errors, status: :unprocessable_entity
     end
-    redirect_to users_url
   end
 
   private
@@ -72,14 +60,6 @@ class UsersController < ApplicationController
 
   def password_params
     params.require(:user).permit(:password, :password_confirmation)
-  end
-
-  def set_users
-    authorize User
-
-    @users = User.all
-    sort_users
-    @pagy, @users = pagy(@users)
   end
 
   def allow_sort
