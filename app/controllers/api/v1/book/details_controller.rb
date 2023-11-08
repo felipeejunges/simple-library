@@ -1,20 +1,8 @@
 # frozen_string_literal: true
 
-class Book::DetailsController < ApplicationController
+class Api::V1::Book::DetailsController < Api::V1::ApplicationController
   before action :set_book
   before_action :set_detail, only: %i[show update destroy]
-
-  # GET /books/1/details or /books/1/details.json
-  def index
-    authorize Book::Detail
-
-    @details = @books.details.all
-    sort_details
-    @pagy, @details = pagy(@details)
-  end
-
-  # GET /books/1/details/1 or /books/1/details/1.json
-  def show; end
 
   # POST /books/1/details or /books/1/details.json
   def create

@@ -4,7 +4,7 @@ class Book < ApplicationRecord
   has_many :details
   has_many :borroweds
 
-  validates :title, :isbn, presence: true
+  validates :title, :isbn, :copies, presence: true
   validates :isbn, uniqueness: true
 
   scope :search, lambda { |query|
@@ -16,15 +16,15 @@ class Book < ApplicationRecord
   end
 
   def authors
-    details.where(name: :author).pluck(:description)
+    details.where(name: :author).order(:description).pluck(:description)
   end
 
   def genres
-    details.where(name: :genre).pluck(:description)
+    details.where(name: :genre).order(:description).pluck(:description)
   end
 
   def publishers
-    details.where(name: :publisher).pluck(:description)
+    details.where(name: :publisher).order(:description).pluck(:description)
   end
 
   def available?

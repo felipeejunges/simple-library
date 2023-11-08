@@ -12,6 +12,14 @@ class Api::V1::BooksController < Api::V1::ApplicationController
     @pagy, @books = pagy(@books)
   end
 
+  def search
+    authorize Book
+    @books = Book.search(params[:query])
+    sort_books
+    @pagy, @books = pagy(@books)
+    render :index
+  end
+
   # GET /api/v1/books/1 or /api/v1/books/1.json
   def show; end
 

@@ -23,7 +23,10 @@ Rails.application.routes.draw do
       post 'login' => 'user_sessions#authenticate'
       resources :users, only: [:index, :show, :create, :update, :destroy]
       resources :books, only: [:index, :show, :create, :update, :destroy] do
-        resources :details, only: [:index, :show, :create, :update, :destroy]
+        collection do
+          get 'search'
+        end
+        resources :details, only: [:create, :update, :destroy]
       end
     end
   end
