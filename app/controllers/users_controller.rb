@@ -4,6 +4,8 @@ class UsersController < ApplicationController
   before_action :set_users, only: %i[index list]
   before_action :set_user, only: %i[show edit update destroy]
 
+  ALLOWED_SORTS = %w[id name email role].freeze
+
   # GET /users or /users.json
   def index; end
 
@@ -77,25 +79,20 @@ class UsersController < ApplicationController
   def set_users
     authorize User
 
-    @users = User.all
-    sort_users
+    @users = sort(User.all, ALLOWED_SORTS)
     @pagy, @users = pagy(@users)
   end
 
-  def allow_sort
-    %w[id name email role].include?(params[:sort_by].to_s)
-  end
-
-  def sort_users
-    return unless allow_sort
+  def sort(objects, alloweds)
+    return objects unless allow_sort(alloweds)
 
     sort_order = params[:sort_order] == 'DESC' ? 'DESC' : 'ASC'
-    sort = if params[:sort_by] == 'name'
-             { first_name: sort_order, last_name: sort_order }
-           else
-             { params[:sort_by].to_sym => sort_order }
-           end
+    sortable = if params[:sort_by] == 'name'
+                 { first_name: sort_order, last_name: sort_order }
+               else
+                 { params[:sort_by].to_sym => sort_order }
+               end
 
-    @users = @users.order(sort)
+    objects.order(sortable)
   end
 end

@@ -4,6 +4,8 @@ class BooksController < ApplicationController
   before_action :set_books, only: %i[index list]
   before_action :set_book, only: %i[show edit update destroy]
 
+  ALLOWED_SORTS = %w[id title isbn].freeze
+
   # GET /books or /books.json
   def index; end
 
@@ -71,21 +73,7 @@ class BooksController < ApplicationController
   def set_books
     authorize Book
 
-    @books = Book.all
-    sort_books
+    @books = sort(Book, ALLOWED_SORTS)
     @pagy, @books = pagy(@books)
-  end
-
-  def allow_sort
-    %w[id title isbn].include?(params[:sort_by].to_s)
-  end
-
-  def sort_books
-    return unless allow_sort
-
-    sort_order = params[:sort_order] == 'DESC' ? 'DESC' : 'ASC'
-    sort = { params[:sort_by].to_sym => sort_order }
-
-    @books = @books.order(sort)
   end
 end

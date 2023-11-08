@@ -3,12 +3,13 @@
 class Api::V1::UsersController < Api::V1::ApplicationController
   before_action :set_user, only: %i[show update destroy]
 
+  ALLOWED_SORTS = %w[id name email role].freeze
+
   # GET /users or /users.json
   def index
     authorize User
 
-    @users = User.all
-    sort_users
+    @users = sort(User, ALLOWED_SORTS)
     @pagy, @users = pagy(@users)
     @pagination = pagy_metadata(@pagy)
   end
@@ -62,20 +63,16 @@ class Api::V1::UsersController < Api::V1::ApplicationController
     params.require(:user).permit(:password, :password_confirmation)
   end
 
-  def allow_sort
-    %w[id name email role].include?(params[:sort_by].to_s)
-  end
-
-  def sort_users
-    return unless allow_sort
+  def sort(objects, alloweds)
+    return objects unless allow_sort(alloweds)
 
     sort_order = params[:sort_order] == 'DESC' ? 'DESC' : 'ASC'
-    sort = if params[:sort_by] == 'name'
-             { first_name: sort_order, last_name: sort_order }
-           else
-             { params[:sort_by].to_sym => sort_order }
-           end
+    sortable = if params[:sort_by] == 'name'
+                 { first_name: sort_order, last_name: sort_order }
+               else
+                 { params[:sort_by].to_sym => sort_order }
+               end
 
-    @users = @users.order(sort)
+    objects.order(sortable)
   end
 end

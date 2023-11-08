@@ -4,12 +4,13 @@ class Book::DetailsController < ApplicationController
   before_action :set_book
   before_action :set_detail, only: %i[show edit update destroy]
 
+  ALLOWED_SORTS = %w[id name description].freeze
+
   # GET /books/1/details or /books/1/details.json
   def index
     authorize Book::Detail
 
-    @details = @books.details.all
-    sort_details
+    @details = sort(@books.details, ALLOWED_SORTS)
     @pagy, @details = pagy(@details)
 
     render(partial: 'details/table', locals: { details: @details })
@@ -74,18 +75,5 @@ class Book::DetailsController < ApplicationController
   # Only allow a list of trusted parameters through.
   def detail_params
     params.require(:detail).permit(:name, :description)
-  end
-
-  def allow_sort
-    %w[name description].include?(params[:sort_by].to_s)
-  end
-
-  def sort_details
-    return unless allow_sort
-
-    sort_order = params[:sort_order] == 'DESC' ? 'DESC' : 'ASC'
-    sort = { params[:sort_by].to_sym => sort_order }
-
-    @details = @details.order(sort)
   end
 end
