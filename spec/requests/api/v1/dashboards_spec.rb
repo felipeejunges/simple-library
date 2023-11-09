@@ -2,17 +2,27 @@
 
 require 'swagger_helper'
 
-RSpec.describe 'api/v1/dashboards', type: :request do
-  path '/api/v1/dashboard' do
-    get('list dashboards') do
-      response(200, 'successful') do
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
+RSpec.describe 'API::V1::Dashboards', type: :request do
+  before do
+    @token = '123'
+  end
+
+  path '/api/v1/dashboards' do
+    get('Dashboard data') do
+      tags 'Dashboards'
+      security [bearerAuth: []]
+
+      response '200', 'Dashboard data fetched successfully' do
+        let(:Authorization) { "Bearer #{@token}" }
+
+        run_test! do |response|
+          data = JSON.parse(response.body)
+          expect(data).not_to be_empty
         end
+      end
+
+      response '401', 'Unauthorized' do
+        let(:Authorization) { 'Bearer invalid_token' }
         run_test!
       end
     end

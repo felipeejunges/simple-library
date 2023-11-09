@@ -5,180 +5,560 @@ info:
   version: v1
 paths:
   "/api/v1/books/{book_id}/details":
-    parameters:
-    - name: book_id
-      in: path
-      description: book_id
-      required: true
-      schema:
-        type: string
+    get:
+      summary: Show book detail
+      tags:
+      - Book Details
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: book_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Book detail fetched successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Book not found
     post:
-      summary: create detail
+      summary: Return book
+      tags:
+      - Book Details
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: book_id
+        in: path
+        required: true
+        schema:
+          type: integer
       responses:
+        '201':
+          description: Book detail created successfully
+        '401':
+          description: Unauthorized
+        '422':
+          description: Invalid parameters
+        '404':
+          description: Book not found
         '200':
-          description: successful
-  "/api/v1/books/{book_id}/details/{id}":
-    parameters:
-    - name: book_id
-      in: path
-      description: book_id
-      required: true
-      schema:
-        type: string
-    - name: id
-      in: path
-      description: id
-      required: true
-      schema:
-        type: string
-    get:
-      summary: show detail
-      responses:
-        '200':
-          description: successful
+          description: Book returned successfully
     patch:
-      summary: update detail
+      summary: Update book detail
+      tags:
+      - Book Details
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: book_id
+        in: path
+        required: true
+        schema:
+          type: integer
       responses:
         '200':
-          description: successful
-    put:
-      summary: update detail
-      responses:
-        '200':
-          description: successful
+          description: Book detail updated successfully
+        '401':
+          description: Unauthorized
+        '422':
+          description: Invalid parameters
+        '404':
+          description: Book not found
     delete:
-      summary: delete detail
+      summary: Delete book detail
+      tags:
+      - Book Details
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: book_id
+        in: path
+        required: true
+        schema:
+          type: integer
       responses:
-        '200':
-          description: successful
-  "/api/v1/books/search":
-    get:
-      summary: search book
-      responses:
-        '200':
-          description: successful
-  "/api/v1/books/{book_id}/borrow":
-    parameters:
-    - name: book_id
-      in: path
-      description: book_id
-      required: true
-      schema:
-        type: string
-    put:
-      summary: borrow book
-      responses:
-        '200':
-          description: successful
+        '204':
+          description: Book detail deleted successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Book not found
   "/api/v1/books":
     get:
-      summary: list books
+      summary: List books
+      tags:
+      - Books
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: page
+        in: query
+        description: Page number
+        schema:
+          type: integer
+      - name: per_page
+        in: query
+        description: Books per page
+        schema:
+          type: integer
+      - name: sort_by
+        in: query
+        description: Sort by field (id, title, author, genre)
+        schema:
+          type: string
+      - name: sort_order
+        in: query
+        description: Sort order (ASC, DESC)
+        schema:
+          type: string
       responses:
         '200':
-          description: successful
+          description: List of books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    title:
+                      type: string
+                    author:
+                      type: string
+                    genre:
+                      type: string
+                  required:
+                  - id
+                  - title
+                  - author
+                  - genre
     post:
-      summary: create book
+      summary: Create book
+      tags:
+      - Books
+      security:
+      - bearerAuth: []
+      parameters: []
       responses:
-        '200':
-          description: successful
+        '201':
+          description: Book created successfully
+        '422':
+          description: Invalid parameters
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: Title
+                author:
+                  type: string
+                  description: Author
+                genre:
+                  type: string
+                  description: Genre
+              required:
+              - title
+              - author
+              - genre
   "/api/v1/books/{id}":
     parameters:
     - name: id
       in: path
-      description: id
+      description: Book ID
       required: true
       schema:
-        type: string
+        type: integer
     get:
-      summary: show book
+      summary: Show book
+      tags:
+      - Books
+      security:
+      - bearerAuth: []
       responses:
         '200':
-          description: successful
-    patch:
-      summary: update book
-      responses:
-        '200':
-          description: successful
+          description: Book details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  title:
+                    type: string
+                  author:
+                    type: string
+                  genre:
+                    type: string
+                required:
+                - id
+                - title
+                - author
+                - genre
+        '404':
+          description: Book not found
     put:
-      summary: update book
+      summary: Update book
+      tags:
+      - Books
+      security:
+      - bearerAuth: []
+      parameters: []
       responses:
         '200':
-          description: successful
+          description: Book updated successfully
+        '404':
+          description: Book not found
+        '422':
+          description: Invalid parameters
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: Title
+                author:
+                  type: string
+                  description: Author
+                genre:
+                  type: string
+                  description: Genre
     delete:
-      summary: delete book
+      summary: Delete book
+      tags:
+      - Books
+      security:
+      - bearerAuth: []
+      responses:
+        '204':
+          description: Book deleted successfully
+        '404':
+          description: Book not found
+  "/api/v1/books/search":
+    get:
+      summary: Search books
+      tags:
+      - Books
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: query
+        in: query
+        description: Search query
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Page number
+        schema:
+          type: integer
+      - name: per_page
+        in: query
+        description: Books per page
+        schema:
+          type: integer
+      - name: sort_by
+        in: query
+        description: Sort by field (id, title, author, genre)
+        schema:
+          type: string
+      - name: sort_order
+        in: query
+        description: Sort order (ASC, DESC)
+        schema:
+          type: string
       responses:
         '200':
-          description: successful
-  "/api/v1/borroweds/{borrowed_id}/return_book":
+          description: List of books matching the search query
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    title:
+                      type: string
+                    author:
+                      type: string
+                    genre:
+                      type: string
+                  required:
+                  - id
+                  - title
+                  - author
+                  - genre
+  "/api/v1/books/{id}/borrow":
     parameters:
-    - name: borrowed_id
+    - name: id
       in: path
-      description: borrowed_id
+      description: Book ID
       required: true
       schema:
-        type: string
-    patch:
-      summary: return_book borrowed
+        type: integer
+    post:
+      summary: Borrow book
+      tags:
+      - Books
+      security:
+      - bearerAuth: []
       responses:
         '200':
-          description: successful
+          description: Book borrowed successfully
+        '404':
+          description: Book not found
+        '422':
+          description: Book already borrowed
   "/api/v1/borroweds":
     get:
-      summary: list borroweds
+      summary: List borroweds
+      tags:
+      - Borroweds
+      security:
+      - bearerAuth: []
       responses:
         '200':
-          description: successful
-  "/api/v1/dashboard":
+          description: List of borroweds fetched successfully
+        '401':
+          description: Unauthorized
+  "/api/v1/borroweds/{borrowed_id}/return":
+    put:
+      summary: Return borrowed book
+      tags:
+      - Borroweds
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: borrowed_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Book returned successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Borrowed not found
+  "/api/v1/dashboards":
     get:
-      summary: list dashboards
+      summary: Dashboard data
+      tags:
+      - Dashboards
+      security:
+      - bearerAuth: []
       responses:
         '200':
-          description: successful
+          description: Dashboard data fetched successfully
+        '401':
+          description: Unauthorized
   "/api/v1/login":
     post:
-      summary: authenticate user_session
+      summary: Authenticate user
+      tags:
+      - User Sessions
+      parameters: []
       responses:
-        '200':
-          description: successful
+        '201':
+          description: User authenticated successfully
+        '422':
+          description: Invalid email or password
+        '500':
+          description: Internal Server Error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: User email
+                  example: user@example.com
+                password:
+                  type: string
+                  description: User password
+                  example: password
+              required:
+              - email
+              - password
   "/api/v1/users":
     get:
-      summary: list users
+      summary: List users
+      tags:
+      - Users
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: page
+        in: query
+        description: Page number
+        schema:
+          type: integer
+      - name: per_page
+        in: query
+        description: Users per page
+        schema:
+          type: integer
+      - name: sort_by
+        in: query
+        description: Sort by field (id, first_name, last_name, email)
+        schema:
+          type: string
+      - name: sort_order
+        in: query
+        description: Sort order (ASC, DESC)
+        schema:
+          type: string
       responses:
         '200':
-          description: successful
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    first_name:
+                      type: string
+                    last_name:
+                      type: string
+                    email:
+                      type: string
+                  required:
+                  - id
+                  - first_name
+                  - last_name
+                  - email
     post:
-      summary: create user
+      summary: Create user
+      tags:
+      - Users
+      security:
+      - bearerAuth: []
+      parameters: []
       responses:
-        '200':
-          description: successful
+        '201':
+          description: User created successfully
+        '422':
+          description: Invalid parameters
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                  description: First Name
+                last_name:
+                  type: string
+                  description: Last Name
+                email:
+                  type: string
+                  format: email
+                  description: Email Address
+              required:
+              - first_name
+              - last_name
+              - email
   "/api/v1/users/{id}":
     parameters:
     - name: id
       in: path
-      description: id
+      description: User ID
       required: true
       schema:
-        type: string
+        type: integer
     get:
-      summary: show user
+      summary: Show user
+      tags:
+      - Users
+      security:
+      - bearerAuth: []
       responses:
         '200':
-          description: successful
-    patch:
-      summary: update user
-      responses:
-        '200':
-          description: successful
+          description: User details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  first_name:
+                    type: string
+                  last_name:
+                    type: string
+                  email:
+                    type: string
+                required:
+                - id
+                - first_name
+                - last_name
+                - email
+        '404':
+          description: User not found
     put:
-      summary: update user
+      summary: Update user
+      tags:
+      - Users
+      security:
+      - bearerAuth: []
+      parameters: []
       responses:
         '200':
-          description: successful
+          description: User updated successfully
+        '404':
+          description: User not found
+        '422':
+          description: Invalid parameters
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                  description: First Name
+                last_name:
+                  type: string
+                  description: Last Name
+                email:
+                  type: string
+                  format: email
+                  description: Email Address
     delete:
-      summary: delete user
+      summary: Delete user
+      tags:
+      - Users
+      security:
+      - bearerAuth: []
       responses:
-        '200':
-          description: successful
+        '204':
+          description: User deleted successfully
+        '404':
+          description: User not found
 servers:
 - url: https://{defaultHost}
   variables:

@@ -1,131 +1,183 @@
-# frozen_string_literal: true
+# spec/requests/api/v1/books_spec.rb
 
 require 'swagger_helper'
 
-RSpec.describe 'api/v1/books', type: :request do
-  path '/api/v1/books/search' do
-    get('search book') do
-      response(200, 'successful') do
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
-        run_test!
-      end
-    end
-  end
-
-  path '/api/v1/books/{book_id}/borrow' do
-    # You'll want to customize the parameter types...
-    parameter name: 'book_id', in: :path, type: :string, description: 'book_id'
-
-    put('borrow book') do
-      response(200, 'successful') do
-        let(:book_id) { '123' }
-
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
-        run_test!
-      end
-    end
-  end
+RSpec.describe 'Api::V1::Books', type: :request do
+  let(:user) { create(:user) }
+  let(:book) { create(:book) } 
 
   path '/api/v1/books' do
-    get('list books') do
-      response(200, 'successful') do
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
+    get('List books') do
+      tags 'Books'
+      produces 'application/json'
+      security [bearerAuth: []]
+
+      parameter name: :page, in: :query, type: :integer, description: 'Page number'
+      parameter name: :per_page, in: :query, type: :integer, description: 'Books per page'
+      parameter name: :sort_by, in: :query, type: :string, description: 'Sort by field (id, title, author, genre)'
+      parameter name: :sort_order, in: :query, type: :string, description: 'Sort order (ASC, DESC)'
+
+      response '200', 'List of books' do
+        schema type: :array,
+               items: {
+                 type: :object,
+                 properties: {
+                   id: { type: :integer },
+                   title: { type: :string },
+                   author: { type: :string },
+                   genre: { type: :string }
+                   # Add more properties as needed
+                 },
+                 required: %w[id title author genre]
+               }
+
         run_test!
       end
     end
 
-    post('create book') do
-      response(200, 'successful') do
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
+    post('Create book') do
+      tags 'Books'
+      consumes 'application/json'
+      produces 'application/json'
+      security [bearerAuth: []]
+
+      parameter name: :book, in: :body, schema: {
+        type: :object,
+        properties: {
+          title: { type: :string, description: 'Title' },
+          author: { type: :string, description: 'Author' },
+          genre: { type: :string, description: 'Genre' },
+        },
+        required: %w[title author genre]
+      }
+
+      response '201', 'Book created successfully' do
+        run_test!
+      end
+
+      response '422', 'Invalid parameters' do
         run_test!
       end
     end
   end
 
   path '/api/v1/books/{id}' do
-    # You'll want to customize the parameter types...
-    parameter name: 'id', in: :path, type: :string, description: 'id'
+    parameter name: :id, in: :path, type: :integer, description: 'Book ID'
 
-    get('show book') do
-      response(200, 'successful') do
-        let(:id) { '123' }
+    get('Show book') do
+      tags 'Books'
+      produces 'application/json'
+      security [bearerAuth: []]
 
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
+      response '200', 'Book details' do
+        schema type: :object,
+               properties: {
+                 id: { type: :integer },
+                 title: { type: :string },
+                 author: { type: :string },
+                 genre: { type: :string }
+               },
+               required: %w[id title author genre]
+
+        run_test!
+      end
+
+      response '404', 'Book not found' do
         run_test!
       end
     end
 
-    patch('update book') do
-      response(200, 'successful') do
-        let(:id) { '123' }
+    put('Update book') do
+      tags 'Books'
+      consumes 'application/json'
+      produces 'application/json'
+      security [bearerAuth: []]
 
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
+      parameter name: :book, in: :body, schema: {
+        type: :object,
+        properties: {
+          title: { type: :string, description: 'Title' },
+          author: { type: :string, description: 'Author' },
+          genre: { type: :string, description: 'Genre' },
+        }
+      }
+
+      response '200', 'Book updated successfully' do
+        run_test!
+      end
+
+      response '404', 'Book not found' do
+        run_test!
+      end
+
+      response '422', 'Invalid parameters' do
         run_test!
       end
     end
 
-    put('update book') do
-      response(200, 'successful') do
-        let(:id) { '123' }
+    delete('Delete book') do
+      tags 'Books'
+      security [bearerAuth: []]
 
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
+      response '204', 'Book deleted successfully' do
+        run_test!
+      end
+
+      response '404', 'Book not found' do
         run_test!
       end
     end
+  end
 
-    delete('delete book') do
-      response(200, 'successful') do
-        let(:id) { '123' }
+  path '/api/v1/books/search' do
+    get('Search books') do
+      tags 'Books'
+      produces 'application/json'
+      security [bearerAuth: []]
 
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
+      parameter name: :query, in: :query, type: :string, description: 'Search query'
+      parameter name: :page, in: :query, type: :integer, description: 'Page number'
+      parameter name: :per_page, in: :query, type: :integer, description: 'Books per page'
+      parameter name: :sort_by, in: :query, type: :string, description: 'Sort by field (id, title, author, genre)'
+      parameter name: :sort_order, in: :query, type: :string, description: 'Sort order (ASC, DESC)'
+
+      response '200', 'List of books matching the search query' do
+        schema type: :array,
+               items: {
+                 type: :object,
+                 properties: {
+                   id: { type: :integer },
+                   title: { type: :string },
+                   author: { type: :string },
+                   genre: { type: :string }
+                   # Add more properties as needed
+                 },
+                 required: %w[id title author genre]
+               }
+
+        run_test!
+      end
+    end
+  end
+
+  path '/api/v1/books/{id}/borrow' do
+    parameter name: :id, in: :path, type: :integer, description: 'Book ID'
+
+    # POST /api/v1/books/{id}/borrow
+    post('Borrow book') do
+      tags 'Books'
+      produces 'application/json'
+      security [bearerAuth: []]
+
+      response '200', 'Book borrowed successfully' do
+        run_test!
+      end
+
+      response '404', 'Book not found' do
+        run_test!
+      end
+
+      response '422', 'Book already borrowed' do
         run_test!
       end
     end
