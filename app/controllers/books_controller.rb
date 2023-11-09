@@ -73,7 +73,8 @@ class BooksController < ApplicationController
   def set_books
     authorize Book
 
-    @books = sort(Book, ALLOWED_SORTS)
+    @books = Book.search(params[:query])
+    @books = sort(@books, ALLOWED_SORTS)
     @pagy, @books = pagy(@books)
   end
 end
