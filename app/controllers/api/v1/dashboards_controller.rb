@@ -3,7 +3,7 @@
 class Api::V1::DashboardsController < Api::V1::ApplicationController
   def index
     @hash = {}
-    current_user.librarian? ? librarian_dashboard : member_dashboard
+    current_user.member? || params[:my_dashboard] ? member_dashboard : librarian_dashboard
     render json: @hash, status: :ok
   end
 

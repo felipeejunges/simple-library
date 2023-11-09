@@ -59,7 +59,7 @@ class Api::V1::BooksController < Api::V1::ApplicationController
   end
 
   def borrow
-    user = current_user.librarian? ? User.find(users_params[:id]) : current_user
+    user = current_user.librarian? && users_params.present? && users_params[:id].present? ? User.find(users_params[:id]) : current_user
     borrowed = @book.borrow(user)
     if borrowed
       render json: { expected_return: borrowed.expected_return, borrowed_id: borrowed.id }, status: :ok
@@ -86,6 +86,6 @@ class Api::V1::BooksController < Api::V1::ApplicationController
   end
 
   def users_params
-    params.require(:user).permit(:id)
+    params.require(:user).permit(:id) if params[:user].present?
   end
 end
