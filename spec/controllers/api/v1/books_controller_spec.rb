@@ -17,6 +17,14 @@ RSpec.describe Api::V1::BooksController, type: :controller do # rubocop:disable 
       get :index
       expect(response).to have_http_status(:success)
     end
+
+    it 'returns a sorted list of users by id' do
+      create_list(:book, 3)
+
+      get :index, params: { sort_by: 'id', sort_order: 'desc' }
+
+      expect(response).to have_http_status(:ok)
+    end
   end
 
   describe 'GET #index for Member' do
