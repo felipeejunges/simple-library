@@ -2,7 +2,7 @@
 # Simple-Library
 [![Docker CI](https://github.com/felipeejunges/simple-library/actions/workflows/dockerci.yml/badge.svg?branch=main)](https://github.com/felipeejunges/simple-library/actions/workflows/dockerci.yml?query=branch%3Amain)
 
-This project is a client-invoice manager.
+This project is a library manager.
 
 ## Technologies
 
@@ -20,7 +20,6 @@ This project is a client-invoice manager.
 - GitActions for CI
 - Pundit
 - Sorcery
-- Swagger
 
 ## Instructions
 
@@ -49,3 +48,5 @@ https://www.loom.com/share/9ae4e928d8524ec79f535a274f8fafc9
 ## Coverage
 
 ![image](https://github.com/felipeejunges/simple-library/assets/20795458/97de249f-22f1-4618-aeee-df7bd9ad5e60)
+
+<sub><sup>Sorry about the merges not be squashed</sup></sub>
