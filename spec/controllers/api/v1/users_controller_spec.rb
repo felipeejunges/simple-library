@@ -15,7 +15,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do # rubocop:disable 
     }
   end
 
-  describe 'GET #index' do
+  describe 'GET #index' do # rubocop:disable Metrics/BlockLength
     context 'when user is a librarian' do
       before { allow(controller).to receive(:current_user).and_return(librarian_user) }
 
