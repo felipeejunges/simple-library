@@ -57,6 +57,7 @@ group :development, :test do
   gem "rubocop"
   gem "rubocop-rails"
   gem "rubocop-rspec"
+  gem 'rswag-specs'
 end
 
 group :development do
@@ -88,7 +89,6 @@ gem "annotate", "~> 3.2"
 
 gem "chartkick", "~> 5.0"
 
-
 gem "pundit", "~> 2.3"
 
 gem "sorcery", "~> 0.16.5"
@@ -96,3 +96,5 @@ gem "sorcery", "~> 0.16.5"
 gem 'rack-cors', require: 'rack/cors'
 
 gem "sorcery-jwt", "~> 0.1.13"
+
+gem "rswag", "~> 2.11"
