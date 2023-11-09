@@ -44,7 +44,7 @@ https://elements.getpostman.com/redirect?entityId=3064842-36151482-e53f-4e3f-a6e
 
 ## Presentation With UI
 
-![video](https://www.loom.com/share/9ae4e928d8524ec79f535a274f8fafc9)
+https://www.loom.com/share/9ae4e928d8524ec79f535a274f8fafc9
 
 ## Coverage
 
