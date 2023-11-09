@@ -31,8 +31,8 @@ RSpec.describe Api::V1::BorrowedsController, type: :controller do # rubocop:disa
   end
 
   describe 'PATCH #return_book' do # rubocop:disable Metrics/BlockLength
-    let(:book) { FactoryBot.create(:book) }
-    let(:borrowed_book) { FactoryBot.create(:borrowed, user: member_user, book:) }
+    let(:book) { create(:book) }
+    let(:borrowed_book) { create(:borrowed, user: member_user, book:) }
 
     describe 'for Librarian' do
       context 'when librarian user returns a borrowed book' do

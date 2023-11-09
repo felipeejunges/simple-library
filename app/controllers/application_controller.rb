@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
   def sort(objects, alloweds)
     return objects unless allow_sort(alloweds)
 
-    sort_order = params[:sort_order] == 'DESC' ? 'DESC' : 'ASC'
+    sort_order = params[:sort_order].upcase == 'DESC' ? 'DESC' : 'ASC'
     sortable = { params[:sort_by].to_sym => sort_order }
 
     objects.order(sortable)
