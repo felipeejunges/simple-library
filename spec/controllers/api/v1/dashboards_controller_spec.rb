@@ -25,6 +25,13 @@ RSpec.describe Api::V1::DashboardsController, type: :controller do # rubocop:dis
     end
   end
 
+  describe 'GET #index for Librarian' do
+    it 'returns librarian dashboard data' do
+      get :index
+      expect(response).to have_http_status(:unauthorized)
+    end
+  end
+
   describe 'GET #index for Member' do
     before do
       allow(controller).to receive(:current_user).and_return(member_user)
