@@ -40,7 +40,10 @@
           <% books.each do |book| %>
             <tr>
               <td><%= book.id %></td>
-              <td><%= link_to book.title, book_path(book), data: { turbo: false } %></td>
+              <td>
+                <%= link_to book.title, book_path(book), data: { turbo: false } %>
+                <%= render 'books/availability_badge', book: book %>
+              </td>
               <td><%= book.isbn %></td>
               <td><%= book.authors.join(', ') %></td>
               <td><%= book.genres.join(', ') %></td>

@@ -28,5 +28,18 @@
 
   <%= render "form", user: @user, readonly: true %>
 
+  <div class="row">
+    <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 border-bottom">
+            <h5>Active Borrows</h5>
+          </div>
+          <%= render "borroweds/books_table", borroweds: @user.borroweds.not_returned %>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
