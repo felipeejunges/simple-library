@@ -6,10 +6,10 @@ SimpleCov.start do
   add_group 'Views', 'app/views'
   add_group 'Helpers', 'app/helpers'
   add_group 'Presenters', 'app/presenters'
-  add_group 'Policies', 'app/policies'
   add_filter 'spec'
   add_filter 'config'
   add_filter 'db'
+  add_filter 'app/policies'
 end
 
 # Capybara.default_max_wait_time = 5
