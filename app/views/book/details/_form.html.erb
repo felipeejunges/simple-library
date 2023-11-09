@@ -1,4 +1,4 @@
-<%= form_with(model: detail) do |form| %>
+<%= form_with(model: detail, url: book_detail_path(detail.book, detail)) do |form| %>
   <div class="row">
     <div class="col-12">
       <% if detail.errors.any? %>

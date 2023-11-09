@@ -39,7 +39,7 @@ class Book::DetailsController < ApplicationController
   def update
     if @detail.update(detail_params)
       flash[:success] = 'Detail was successfully updated.'
-      redirect_to book_url(@detail.book)
+      redirect_to book_url(@detail.book.id)
     else
       flash[:error] = 'Detail not updated'
       render :edit, status: :unprocessable_entity
