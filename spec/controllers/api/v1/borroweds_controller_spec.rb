@@ -62,13 +62,13 @@ RSpec.describe Api::V1::BorrowedsController, type: :controller do # rubocop:disa
 
         it 'returns forbidden status' do
           patch :return_book, params: { borrowed_id: borrowed_book.id }
-          expect(response).to have_http_status(:unauthorized)
+          expect(response).to have_http_status(:forbidden)
         end
 
         it 'does not mark the book as returned' do
           expect { patch :return_book, params: { borrowed_id: borrowed_book.id } }
             .not_to(change { borrowed_book.reload.returned_at })
-          expect(response).to have_http_status(:unauthorized)
+          expect(response).to have_http_status(:forbidden)
         end
       end
     end

@@ -114,7 +114,7 @@ RSpec.describe Api::V1::BooksController, type: :controller do # rubocop:disable 
         allow(controller).to receive(:current_user).and_return(member_user)
         delete :destroy, params: { id: book.id }
 
-        expect(response).to have_http_status(:unauthorized)
+        expect(response).to have_http_status(:forbidden)
       end
     end
   end
@@ -141,7 +141,7 @@ RSpec.describe Api::V1::BooksController, type: :controller do # rubocop:disable 
         allow(controller).to receive(:current_user).and_return(member_user)
         patch :update, params: { id: book.id, book: { title: 'New Title' } }
 
-        expect(response).to have_http_status(:unauthorized)
+        expect(response).to have_http_status(:forbidden)
       end
     end
   end

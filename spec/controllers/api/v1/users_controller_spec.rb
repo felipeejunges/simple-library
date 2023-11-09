@@ -56,7 +56,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do # rubocop:disable 
 
       it 'returns unauthorized error' do
         get :index
-        expect(response).to have_http_status(:unauthorized)
+        expect(response).to have_http_status(:forbidden)
       end
     end
   end
@@ -104,7 +104,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do # rubocop:disable 
 
       it 'returns unauthorized error' do
         put :update, params: { id: user_to_update.id, user: { first_name: 'New Name' } }
-        expect(response).to have_http_status(:unauthorized)
+        expect(response).to have_http_status(:forbidden)
       end
     end
   end
