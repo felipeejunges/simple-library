@@ -17,6 +17,10 @@ class Book < ApplicationRecord
     Book.sum(:copies)
   end
 
+  def self.never_borrowed
+    Borrowed.where(book_id: Book.all.pluck(:id)).distinct(:book_id)
+  end
+
   def authors
     details.where(name: :author).order(:description).pluck(:description)
   end

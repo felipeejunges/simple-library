@@ -16,10 +16,14 @@
             <th scope="col">
               Expected Return
             </th>
-            <th scope="col">
-              Returned at
-            </th>
-            <th scope="col">Actions</th>
+            <% if show_return_at %>
+              <th scope="col">
+                Returned at
+              </th>
+            <% end %>
+            <% if current_user.librarian? && !show_return_at %>
+              <th scope="col">Actions</th>
+            <% end %>
           </tr>
         </thead>
         <tbody>
@@ -32,8 +36,10 @@
               </td>
               <td><%= borrowed.borrowed_at %></td>
               <td><%= borrowed.expected_return %></td>
-               <td><%= borrowed.returned_at %></td>
-              <% if current_user.librarian? %>
+              <% if show_return_at %>
+                <td><%= borrowed.returned_at %></td>
+              <% end %>
+              <% if current_user.librarian? && !show_return_at%>
                 <td>
                   <div class="btn-group me-2">
                     <%= link_to borrowed_return_book_path(borrowed, from_user: true), data: { turbo: false }, class: "btn btn-sm btn-outline-success" do %>

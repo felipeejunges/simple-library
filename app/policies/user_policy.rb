@@ -5,6 +5,10 @@ class UserPolicy < ApplicationPolicy
     user.librarian?
   end
 
+  def show?
+    user.librarian? || user == record
+  end
+
   def update?
     user.librarian? || user == record
   end

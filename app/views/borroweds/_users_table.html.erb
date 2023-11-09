@@ -16,7 +16,9 @@
             <th scope="col">
               Expected Return
             </th>
-            <th scope="col">Actions</th>
+            <% if current_user.librarian? %>
+              <th scope="col">Actions</th>
+            <% end %>
           </tr>
         </thead>
         <tbody>

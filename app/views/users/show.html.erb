@@ -35,11 +35,25 @@
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 border-bottom">
             <h5>Active Borrows</h5>
           </div>
-          <%= render "borroweds/books_table", borroweds: @user.borroweds.not_returned %>
+          <%= render "borroweds/books_table", borroweds: @user.borroweds.not_returned, show_return_at: false %>
         </div>
       </div>
     </div>
   </div>
+
+  <div class="row mt-2">
+    <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 border-bottom">
+            <h5>Returned</h5>
+          </div>
+          <%= render "borroweds/books_table", borroweds: @user.borroweds.where.not(returned_at: nil), show_return_at: true %>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
 </div>
 
