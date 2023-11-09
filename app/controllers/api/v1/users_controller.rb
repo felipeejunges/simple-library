@@ -9,7 +9,7 @@ class Api::V1::UsersController < Api::V1::ApplicationController
   def index
     authorize User
 
-    @users = sort(User, ALLOWED_SORTS)
+    @users = sort(User.all, ALLOWED_SORTS)
     @pagy, @users = pagy(@users)
     @pagination = pagy_metadata(@pagy)
   end
@@ -68,7 +68,7 @@ class Api::V1::UsersController < Api::V1::ApplicationController
   def sort(objects, alloweds)
     return objects unless allow_sort(alloweds)
 
-    sort_order = params[:sort_order] == 'DESC' ? 'DESC' : 'ASC'
+    sort_order = params[:sort_order].upcase == 'DESC' ? 'DESC' : 'ASC'
     sortable = if params[:sort_by] == 'name'
                  { first_name: sort_order, last_name: sort_order }
                else

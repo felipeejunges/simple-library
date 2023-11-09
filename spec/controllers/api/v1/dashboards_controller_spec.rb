@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::DashboardsController, type: :controller do # rubocop:disable Metrics/BlockLength
-  let(:librarian_user) { FactoryBot.create(:user, role: 'librarian') }
-  let(:member_user) { FactoryBot.create(:user, role: 'member') }
-  let(:book) { FactoryBot.create(:book) }
-  let(:borrowed_book) { FactoryBot.create(:borrowed, user: member_user, book:) }
+  let(:librarian_user) { create(:user, role: 'librarian') }
+  let(:member_user) { create(:user, role: 'member') }
+  let!(:book) { create(:book) }
+  let!(:borrowed_book) { create(:borrowed, user: member_user, book:) }
 
   describe 'GET #index for Librarian' do
     before do
@@ -25,6 +25,13 @@ RSpec.describe Api::V1::DashboardsController, type: :controller do # rubocop:dis
     end
   end
 
+  describe 'GET #index for Librarian' do
+    it 'returns librarian dashboard data' do
+      get :index
+      expect(response).to have_http_status(:unauthorized)
+    end
+  end
+
   describe 'GET #index for Member' do
     before do
       allow(controller).to receive(:current_user).and_return(member_user)
@@ -35,6 +42,7 @@ RSpec.describe Api::V1::DashboardsController, type: :controller do # rubocop:dis
       expect(response).to have_http_status(:success)
       json_response = JSON.parse(response.body)
       expect(json_response['borrowed_books']).to be_an(Array)
+      expect(json_response['borrowed_books'][0]['book_id']).to be(borrowed_book.id)
     end
   end
 end

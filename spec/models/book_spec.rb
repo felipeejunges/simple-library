@@ -105,7 +105,12 @@ RSpec.describe Book, type: :model do # rubocop:disable Metrics/BlockLength
       end
 
       it 'does not allow borrowing if no available copies' do
-        3.times { book.borrow(user) }
+        book.update(copies: 0)
+        expect { book.borrow(user) }.to_not change(Borrowed, :count)
+      end
+
+      it 'does not allow borrowing if no available copies' do
+        allow_any_instance_of(Borrowed).to receive(:save).and_return(false)
         expect { book.borrow(user) }.to_not change(Borrowed, :count)
       end
     end
