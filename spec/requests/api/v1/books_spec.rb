@@ -26,7 +26,6 @@ RSpec.describe 'Api::V1::Books', type: :request do
                    title: { type: :string },
                    author: { type: :string },
                    genre: { type: :string }
-                   # Add more properties as needed
                  },
                  required: %w[id title author genre]
                }
