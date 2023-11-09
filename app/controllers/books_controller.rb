@@ -2,7 +2,7 @@
 
 class BooksController < ApplicationController
   before_action :set_books, only: %i[index list]
-  before_action :set_book, only: %i[show edit update destroy]
+  before_action :set_book, only: %i[show edit update destroy borrow]
 
   ALLOWED_SORTS = %w[id title isbn].freeze
 
@@ -57,11 +57,23 @@ class BooksController < ApplicationController
     redirect_to books_url
   end
 
+  def borrow
+    user = current_user.librarian? ? User.find(params[:user_id]) : current_user
+    borrowed = @book.borrow(user)
+    if borrowed
+      flash[:success] = 'Book was successfully borrowed.'
+    else
+      flash[:error] = 'Book was not borrowed'
+    end
+
+    redirect_to book_url(@book)
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
   def set_book
-    @book = Book.find(params[:id])
+    @book = Book.find(params[:book_id] || params[:id])
     authorize @book
   end
 
@@ -73,7 +85,8 @@ class BooksController < ApplicationController
   def set_books
     authorize Book
 
-    @books = sort(Book, ALLOWED_SORTS)
+    @books = Book.search(params[:query])
+    @books = sort(@books, ALLOWED_SORTS)
     @pagy, @books = pagy(@books)
   end
 end

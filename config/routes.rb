@@ -15,7 +15,12 @@ Rails.application.routes.draw do
     collection do
       get 'list'
     end
-    resources :details
+    put 'borrow'
+    resources :details, controller: 'book/details'
+  end
+
+  resources :borroweds, except: [:index, :new, :edit, :show, :create, :update, :destroy] do
+    get 'return_book'
   end
 
   namespace :api do

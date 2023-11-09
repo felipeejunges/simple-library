@@ -1,0 +1,28 @@
+<div class="modal fade" id="borrowModal" tabindex="-1" aria-labelledby="borrowModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="borrowModalLabel">
+          <%= current_user.librarian? ? 'For who?' : 'Are you sure?' %>
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <%= form_tag(book_borrow_path(@book), method: :put) do |form| %>
+        <% if current_user.librarian? %>
+          <div class="modal-body">
+            <div class="mb-3">
+              <div class="form-floating">
+                <%= select_tag :user_id, options_for_select(UserPresenter.user_options, ''), class: "form-select" %>
+                <%= label_tag :user %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Borrow</button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

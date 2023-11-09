@@ -1,0 +1,5 @@
+<% if borrowed.late? %>
+  <span class="badge bg-danger">Overdue</span>
+<% elsif borrowed.expected_return.to_date == Date.current %>
+  <span class="badge bg-warning">Last day</span>
+<% end %>

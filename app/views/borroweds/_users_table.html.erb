@@ -1,0 +1,49 @@
+<%= turbo_frame_tag "books_table" do %>
+  <div class="row">
+    <div class="col-12 table-responsive">
+      <table class="table table-striped table-sm">
+        <thead>
+          <tr>
+            <th scope="col">
+              ID
+            </th>
+            <th scope="col">
+              User
+            </th>
+            <th scope="col">
+              Borrowed At
+            </th>
+            <th scope="col">
+              Expected Return
+            </th>
+            <% if current_user.librarian? %>
+              <th scope="col">Actions</th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <% borroweds.each do |borrowed| %>
+            <tr>
+              <td><%= borrowed.id %></td>
+              <td>
+                <%= borrowed.user.name %>
+                <%= render 'borroweds/late_badge', borrowed: borrowed %>
+              </td>
+              <td><%= borrowed.borrowed_at %></td>
+              <td><%= borrowed.expected_return %></td>
+              <% if current_user.librarian? %>
+                <td>
+                  <div class="btn-group me-2">
+                    <%= link_to borrowed_return_book_path(borrowed), data: { turbo: false }, class: "btn btn-sm btn-outline-success" do %>
+                      <i class="bi bi-bootstrap-reboot"></i>
+                    <% end %>
+                  </div>
+                </td>
+              <% end%>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% end %>

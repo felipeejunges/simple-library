@@ -10,14 +10,10 @@ class Book::DetailsController < ApplicationController
   def index
     authorize Book::Detail
 
-    @details = sort(@books.details, ALLOWED_SORTS)
-    @pagy, @details = pagy(@details)
+    @details = sort(@book.details, ALLOWED_SORTS)
 
-    render(partial: 'details/table', locals: { details: @details })
+    render(partial: 'book/details/table', locals: { details: @details })
   end
-
-  # GET /books/1/books/1/details1 or /books/1/books/1/details1.json
-  def show; end
 
   # GET /books/1/books/1/detailsnew
   def new
@@ -31,7 +27,7 @@ class Book::DetailsController < ApplicationController
 
     if @detail.save
       flash[:success] = 'Detail was successfully created.'
-      redirect_to detail_url(@detail)
+      redirect_to book_url(@detail.book)
     else
       flash[:error] = 'Detail not created'
       render :new, status: :unprocessable_entity
@@ -43,7 +39,7 @@ class Book::DetailsController < ApplicationController
   def update
     if @detail.update(detail_params)
       flash[:success] = 'Detail was successfully updated.'
-      redirect_to detail_url(@detail)
+      redirect_to book_url(@detail.book)
     else
       flash[:error] = 'Detail not updated'
       render :edit, status: :unprocessable_entity
@@ -74,6 +70,6 @@ class Book::DetailsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def detail_params
-    params.require(:detail).permit(:name, :description)
+    params.require(:book_detail).permit(:name, :description)
   end
 end

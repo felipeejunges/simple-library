@@ -41,3 +41,11 @@ This instructions shows how to initialize the project and using it with [docker]
 ## Postman collection
 
 https://elements.getpostman.com/redirect?entityId=3064842-36151482-e53f-4e3f-a6ea-8b6458917aa1&entityType=collection
+
+## Presentation With UI
+
+https://www.loom.com/share/9ae4e928d8524ec79f535a274f8fafc9
+
+## Coverage
+
+![image](https://github.com/felipeejunges/simple-library/assets/20795458/97de249f-22f1-4618-aeee-df7bd9ad5e60)
